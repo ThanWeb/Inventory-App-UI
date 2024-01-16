@@ -3,10 +3,8 @@ import IProduct from '../types/product'
 
 const showError = (error: any): any => {
   if (axios.isAxiosError(error)) {
-    console.error(error?.response?.data)
     return error?.response?.data
   } else {
-    console.error(error)
     return error
   }
 }

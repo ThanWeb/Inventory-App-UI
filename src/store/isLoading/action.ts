@@ -1,11 +1,9 @@
-import type { AnyAction } from '@reduxjs/toolkit'
-
 const ActionType = {
   SET_LOADING_TRUE: 'SET_LOADING_TRUE',
   SET_LOADING_FALSE: 'SET_LOADING_FALSE'
 }
 
-const setLoadingTrueActionCreator = (isLoading: boolean = false): AnyAction => {
+const setLoadingTrueActionCreator = (isLoading: boolean = false): { type: string, payload: Record<string, any>} => {
   return {
     type: ActionType.SET_LOADING_TRUE,
     payload: {
@@ -14,7 +12,7 @@ const setLoadingTrueActionCreator = (isLoading: boolean = false): AnyAction => {
   }
 }
 
-const setLoadingFalseActionCreator = (): AnyAction => {
+const setLoadingFalseActionCreator = (): { type: string, payload: Record<string, any>} => {
   return {
     type: ActionType.SET_LOADING_FALSE,
     payload: {

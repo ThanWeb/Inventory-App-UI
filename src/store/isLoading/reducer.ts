@@ -1,7 +1,6 @@
-import type { AnyAction } from '@reduxjs/toolkit'
 import { ActionType } from './action'
 
-const isLoadingReducer = (isLoading: boolean = false, action: AnyAction = { type: '' }): any => {
+const isLoadingReducer = (isLoading: boolean = false, action: any): boolean => {
   switch (action.type) {
   case ActionType.SET_LOADING_FALSE:
     return false

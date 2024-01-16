@@ -1,11 +1,9 @@
-import type { AnyAction } from '@reduxjs/toolkit'
-
 const ActionType = {
   SET_MESSAGE: 'SET_MESSAGE',
   UNSET_MESSAGE: 'UNSET_MESSAGE'
 }
 
-const setMessageActionCreator = (message: Record<string, any> | null = null): AnyAction => {
+const setMessageActionCreator = (message: Record<string, any> | null = null): { type: string, payload: Record<string, any>} => {
   return {
     type: ActionType.SET_MESSAGE,
     payload: {
@@ -14,7 +12,7 @@ const setMessageActionCreator = (message: Record<string, any> | null = null): An
   }
 }
 
-const unsetMessageActionCreator = (): AnyAction => {
+const unsetMessageActionCreator = (): { type: string, payload: Record<string, any>} => {
   return {
     type: ActionType.UNSET_MESSAGE,
     payload: {
