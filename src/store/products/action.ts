@@ -1,15 +1,15 @@
 import type IProduct from '@/types/product'
-import { Dispatch } from '@reduxjs/toolkit'
+import { type Dispatch } from '@reduxjs/toolkit'
 import api from '@/utils/api'
 
 const ActionType = {
   RECEIVE_PRODUCTS: 'RECEIVE_PRODUCTS',
   CREATE_PRODUCT: 'CREATE_PRODUCT',
   UPDATE_PRODUCT: 'UPDATE_PRODUCT',
-  DELETE_PRODUCT: 'DELETE_PRODUCT',
+  DELETE_PRODUCT: 'DELETE_PRODUCT'
 }
 
-const receiveProductsActionCreator = (products: IProduct[] | never[]): { type: string, payload: Record<string, any>} => {
+const receiveProductsActionCreator = (products: IProduct[] | never[]): { type: string, payload: Record<string, any> } => {
   return {
     type: ActionType.RECEIVE_PRODUCTS,
     payload: {
@@ -18,7 +18,7 @@ const receiveProductsActionCreator = (products: IProduct[] | never[]): { type: s
   }
 }
 
-const createProductActionCreator = (product: IProduct) => {
+const createProductActionCreator = (product: IProduct): { type: string, payload: Record<string, any> } => {
   return {
     type: ActionType.CREATE_PRODUCT,
     payload: {
@@ -27,7 +27,7 @@ const createProductActionCreator = (product: IProduct) => {
   }
 }
 
-const updateProductActionCreator = (id: number, product: IProduct) => {
+const updateProductActionCreator = (id: number, product: IProduct): { type: string, payload: Record<string, any> } => {
   return {
     type: ActionType.UPDATE_PRODUCT,
     payload: {
@@ -37,7 +37,7 @@ const updateProductActionCreator = (id: number, product: IProduct) => {
   }
 }
 
-const deleteProductActionCreator = (id: number) => {
+const deleteProductActionCreator = (id: number): { type: string, payload: Record<string, any> } => {
   return {
     type: ActionType.DELETE_PRODUCT,
     payload: {
@@ -49,7 +49,7 @@ const deleteProductActionCreator = (id: number) => {
 const asyncGetProducts = (): any => {
   return async (dispatch: Dispatch) => {
     try {
-      const { products } = await api.getProducts()
+      const { products }: { products: IProduct[] | never[] } = await api.getProducts()
       dispatch(receiveProductsActionCreator(products))
     } catch (error: any) {
       console.error(error.message)
@@ -60,7 +60,7 @@ const asyncGetProducts = (): any => {
 const asyncAddProduct = ({ name, capitalPrice, sellPrice, stock, unit }: IProduct): any => {
   return async (dispatch: Dispatch) => {
     try {
-      const response = await api.addProduct({ name, capitalPrice, sellPrice, stock, unit })
+      const response: { error: boolean, product: IProduct } = await api.addProduct({ name, capitalPrice, sellPrice, stock, unit })
 
       if (!response.error) {
         dispatch(createProductActionCreator(response.product))
@@ -71,7 +71,7 @@ const asyncAddProduct = ({ name, capitalPrice, sellPrice, stock, unit }: IProduc
   }
 }
 
-const asyncEditProduct = ({ id, product:  { name, capitalPrice, sellPrice, stock, unit } }: { id: number, product: IProduct }): any => {
+const asyncEditProduct = ({ id, product: { name, capitalPrice, sellPrice, stock, unit } }: { id: number, product: IProduct }): any => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await api.updateProduct({ id, product: { name, capitalPrice, sellPrice, stock, unit } })
@@ -99,7 +99,6 @@ const asyncDeleteProduct = ({ id }: { id: number }): any => {
     }
   }
 }
-
 
 export {
   ActionType,

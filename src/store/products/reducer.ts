@@ -6,7 +6,7 @@ const productsReducer = (products: IProduct[] | never[] = [], action: any): IPro
   case ActionType.RECEIVE_PRODUCTS:
     return action.payload.products
   case ActionType.CREATE_PRODUCT:
-    return [ ...products, { ...action.payload.product, isDeleted: false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() }]
+    return [...products, { ...action.payload.product, isDeleted: false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() }]
   case ActionType.UPDATE_PRODUCT:
     return products.map((product) => {
       if (product.id === action.payload.id) {

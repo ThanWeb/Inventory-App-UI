@@ -1,5 +1,5 @@
 import axios from 'axios'
-import IProduct from '../types/product'
+import type IProduct from '../types/product'
 
 const showError = (error: any): any => {
   if (axios.isAxiosError(error)) {

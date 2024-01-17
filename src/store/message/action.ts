@@ -3,7 +3,7 @@ const ActionType = {
   UNSET_MESSAGE: 'UNSET_MESSAGE'
 }
 
-const setMessageActionCreator = (message: Record<string, any> | null = null): { type: string, payload: Record<string, any>} => {
+const setMessageActionCreator = (message: Record<string, any> | null = null): { type: string, payload: Record<string, any> } => {
   return {
     type: ActionType.SET_MESSAGE,
     payload: {
@@ -12,7 +12,7 @@ const setMessageActionCreator = (message: Record<string, any> | null = null): { 
   }
 }
 
-const unsetMessageActionCreator = (): { type: string, payload: Record<string, any>} => {
+const unsetMessageActionCreator = (): { type: string, payload: Record<string, any> } => {
   return {
     type: ActionType.UNSET_MESSAGE,
     payload: {
