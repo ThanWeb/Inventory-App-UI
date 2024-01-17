@@ -27,6 +27,16 @@ const createProductActionCreator = (product: IProduct) => {
   }
 }
 
+const updateProductActionCreator = (id: number, product: IProduct) => {
+  return {
+    type: ActionType.UPDATE_PRODUCT,
+    payload: {
+      id,
+      product
+    }
+  }
+}
+
 const asyncGetProducts = (): any => {
   return async (dispatch: Dispatch) => {
     try {
@@ -52,8 +62,24 @@ const asyncAddProduct = ({ name, capitalPrice, sellPrice, stock, unit }: IProduc
   }
 }
 
+const asyncEditProduct = ({ id, product:  { name, capitalPrice, sellPrice, stock, unit } }: { id: number, product: IProduct }): any => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const response = await api.updateProduct({ id, product: { name, capitalPrice, sellPrice, stock, unit } })
+
+      if (!response.error) {
+        dispatch(updateProductActionCreator(id, { name, capitalPrice, sellPrice, stock, unit }))
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
+
 export {
   ActionType,
   asyncGetProducts,
-  asyncAddProduct
+  asyncAddProduct,
+  asyncEditProduct
 }
