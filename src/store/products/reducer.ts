@@ -16,6 +16,10 @@ const productsReducer = (products: IProduct[] | never[] = [], action: any): IPro
 
       return product
     })
+  case ActionType.DELETE_PRODUCT:
+    return products.filter((product) => {
+      return product.id !== action.payload.id
+    })
   default:
     return products
   }

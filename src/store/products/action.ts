@@ -37,6 +37,15 @@ const updateProductActionCreator = (id: number, product: IProduct) => {
   }
 }
 
+const deleteProductActionCreator = (id: number) => {
+  return {
+    type: ActionType.DELETE_PRODUCT,
+    payload: {
+      id
+    }
+  }
+}
+
 const asyncGetProducts = (): any => {
   return async (dispatch: Dispatch) => {
     try {
@@ -76,10 +85,26 @@ const asyncEditProduct = ({ id, product:  { name, capitalPrice, sellPrice, stock
   }
 }
 
+const asyncDeleteProduct = ({ id }: { id: number }): any => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const response = await api.deleteProduct({ id })
+      console.log(response)
+
+      if (!response.error) {
+        dispatch(deleteProductActionCreator(id))
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 
 export {
   ActionType,
   asyncGetProducts,
   asyncAddProduct,
-  asyncEditProduct
+  asyncEditProduct,
+  asyncDeleteProduct
 }
