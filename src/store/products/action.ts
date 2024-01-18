@@ -89,7 +89,6 @@ const asyncDeleteProduct = ({ id }: { id: number }): any => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await api.deleteProduct({ id })
-      console.log(response)
 
       if (!response.error) {
         dispatch(deleteProductActionCreator(id))
