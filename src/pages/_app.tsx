@@ -1,13 +1,23 @@
-import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
+import { type ReactElement, Fragment } from 'react'
 import { Provider } from 'react-redux'
+import type { Page } from '@/types/page'
 import store from '@/store'
-import { type ReactElement } from 'react'
+import '@/styles/globals.css'
 
-export default function App ({ Component, pageProps }: AppProps): ReactElement {
+type Props = AppProps & {
+  Component: Page
+}
+
+export default function App ({ Component, pageProps }: Props): ReactElement {
+  const getLayout = Component.getLayout ?? (page => page)
+  const Layout = Component.layout ?? Fragment
+
   return (
     <Provider store={store}>
-      <Component {...pageProps} />
+      <Layout>
+        {getLayout(<Component {...pageProps} />)}
+      </Layout>
     </Provider>
   )
 }
