@@ -12,9 +12,74 @@ const showError = (error: any): any => {
 const api = (() => {
   const BASE_URL = process.env.ENVIRONMENT === 'production' ? process.env.BASE_URL : 'http://localhost:8000/'
 
+  const putAccessToken = (token: string): void => {
+    localStorage.setItem('accessToken', token)
+  }
+
+  const getAccessToken = (): string | null => {
+    return localStorage.getItem('accessToken')
+  }
+
+  const register = async ({ username, password }: { username: string, password: string }): Promise<any> => {
+    try {
+      const response = await axios.post(`${BASE_URL}register`, { username, password }, {
+        withCredentials: true
+      })
+
+      return response.data
+    } catch (error: any) {
+      return showError(error)
+    }
+  }
+
+  const login = async ({ username, password }: { username: string, password: string }): Promise<any> => {
+    try {
+      const response = await axios.post(`${BASE_URL}login`, { username, password }, {
+        withCredentials: true
+      })
+
+      return response.data
+    } catch (error: any) {
+      return showError(error)
+    }
+  }
+
+  const verifyToken = async (): Promise<any> => {
+    try {
+      const response = await axios.post(`${BASE_URL}verify`, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`
+        },
+        withCredentials: true
+      })
+
+      return response.data
+    } catch (error: any) {
+      return showError(error)
+    }
+  }
+
+  const logout = async (): Promise<any> => {
+    try {
+      const response = await axios.delete(`${BASE_URL}logout`, {
+        withCredentials: true
+      })
+
+      return response.data
+    } catch (error: any) {
+      return showError(error)
+    }
+  }
+
   const addProduct = async ({ name, capitalPrice, sellPrice, stock, unit }: IProduct): Promise<any> => {
     try {
-      const response = await axios.post(`${BASE_URL}product`, { name, capitalPrice, sellPrice, stock, unit })
+      const response = await axios.post(`${BASE_URL}product`, { name, capitalPrice, sellPrice, stock, unit }, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`
+        },
+        withCredentials: true
+      })
+
       return response.data
     } catch (error: any) {
       return showError(error)
@@ -23,7 +88,13 @@ const api = (() => {
 
   const getProducts = async (): Promise<any> => {
     try {
-      const response = await axios.get(`${BASE_URL}product`)
+      const response = await axios.get(`${BASE_URL}product`, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`
+        },
+        withCredentials: true
+      })
+
       return response.data
     } catch (error: any) {
       return showError(error)
@@ -32,7 +103,13 @@ const api = (() => {
 
   const updateProduct = async ({ id, product: { name, capitalPrice, sellPrice, stock, unit } }: { id: number, product: IProduct }): Promise<any> => {
     try {
-      const response = await axios.put(`${BASE_URL}product`, { id, name, capitalPrice, sellPrice, stock, unit })
+      const response = await axios.put(`${BASE_URL}product`, { id, name, capitalPrice, sellPrice, stock, unit }, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`
+        },
+        withCredentials: true
+      })
+
       return response.data
     } catch (error: any) {
       return showError(error)
@@ -41,7 +118,13 @@ const api = (() => {
 
   const deleteProduct = async ({ id }: { id: number }): Promise<any> => {
     try {
-      const response = await axios.put(`${BASE_URL}product/delete`, { id })
+      const response = await axios.put(`${BASE_URL}product/delete`, { id }, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`
+        },
+        withCredentials: true
+      })
+
       return response.data
     } catch (error: any) {
       return showError(error)
@@ -49,6 +132,12 @@ const api = (() => {
   }
 
   return {
+    putAccessToken,
+    getAccessToken,
+    register,
+    login,
+    verifyToken,
+    logout,
     addProduct,
     getProducts,
     updateProduct,
