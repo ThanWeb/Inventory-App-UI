@@ -1,8 +1,13 @@
 import { Inter } from 'next/font/google'
+import { useRouter } from 'next/router'
 import { type ReactElement, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { asyncGetProducts, asyncAddProduct, asyncEditProduct, asyncDeleteProduct } from '@/store/products/action'
 import type { RootState } from '@/store/index'
+import { type IStateUser, asyncVerifyUserToken, setUserActionCreator } from '@/store/user/action'
+import { setLoadingTrueActionCreator, setLoadingFalseActionCreator } from '@/store/isLoading/action'
+import { setMessageActionCreator } from '@/store/message/action'
+import DefaultLayout from '@/layouts/default'
 import PaginationTable from '@/components/PaginationTable'
 import ProductInputModal from '@/components/ProductInputModal'
 import type IProduct from '@/types/product'
@@ -10,6 +15,7 @@ import type IProduct from '@/types/product'
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home (): ReactElement {
+  const router = useRouter()
   const dispatch = useDispatch()
 
   const products: IProduct[] | never[] = useSelector((state: RootState) => state.products)
@@ -26,8 +32,26 @@ export default function Home (): ReactElement {
   const [unit, setUnit] = useState('')
 
   useEffect(() => {
-    dispatch(asyncGetProducts())
+    void init()
   }, [dispatch])
+
+  const init = async (): Promise<void> => {
+    dispatch(setLoadingTrueActionCreator())
+    const response: { error: boolean, message: string, user: IStateUser } = await dispatch(asyncVerifyUserToken())
+
+    if (response.error) {
+      dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
+
+      setTimeout(() => {
+        void router.push('/sign-in')
+      }, 3000)
+    } else {
+      dispatch(setUserActionCreator(response.user))
+      await dispatch(asyncGetProducts())
+    }
+
+    dispatch(setLoadingFalseActionCreator())
+  }
 
   const showProductModalForAction = (action: string, product: IProduct | null, selectedId: number): void => {
     setIsProductModalShowed(true)
@@ -96,7 +120,7 @@ export default function Home (): ReactElement {
   }
 
   return (
-    <main className={`flex flex-col ${inter.className}`}>
+    <div className={`flex flex-col ${inter.className}`}>
       <div className='container mx-auto flex flex-col items-center'>
         <div>
           <button type='button' onClick={() => { showProductModalForAction('add', null, 0) }} >Tambah</button>
@@ -130,6 +154,14 @@ export default function Home (): ReactElement {
           }}
         />
       </div>
-    </main>
+    </div>
+  )
+}
+
+Home.getLayout = function getLayout (page: ReactElement) {
+  return (
+    <DefaultLayout>
+      {page}
+    </DefaultLayout>
   )
 }
