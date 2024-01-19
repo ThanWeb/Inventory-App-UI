@@ -1,6 +1,6 @@
-import { ActionType } from './action'
+import { ActionType, type IStateMessage } from './action'
 
-const messageReducer = (message: Record<string, any> | null = null, action: any): Record<string, any> | null => {
+const messageReducer = (message: IStateMessage | null = null, action: any): IStateMessage | null => {
   switch (action.type) {
   case ActionType.SET_MESSAGE:
     return action.payload.message
