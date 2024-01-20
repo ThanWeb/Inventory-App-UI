@@ -1,6 +1,7 @@
 import { type ReactElement } from 'react'
 
 interface IAuthForm {
+  isLoginPage: boolean
   username: string
   setUsername: (param: string) => void
   password: string
@@ -49,6 +50,13 @@ const AuthForm = ({ props }: IProps): ReactElement => {
             }
           </button>
         </div>
+      </div>
+      <div>
+        <button type='submit'>
+          {
+            props.isLoginPage ? 'Masuk' : 'Daftar'
+          }
+        </button>
       </div>
     </form>
   )
