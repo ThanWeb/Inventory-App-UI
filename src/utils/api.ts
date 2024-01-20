@@ -16,6 +16,8 @@ const showError = (error: any): any => {
   }
 }
 
+axios.defaults.withCredentials = true
+
 const api = (() => {
   const BASE_URL = process.env.ENVIRONMENT === 'production' ? process.env.BASE_URL : 'http://localhost:8000/'
 
@@ -29,10 +31,7 @@ const api = (() => {
 
   const register = async ({ username, password }: { username: string, password: string }): Promise<any> => {
     try {
-      const response = await axios.post(`${BASE_URL}register`, { username, password }, {
-        withCredentials: true
-      })
-
+      const response = await axios.post(`${BASE_URL}register`, { username, password })
       return response.data
     } catch (error: any) {
       return showError(error)
@@ -41,10 +40,7 @@ const api = (() => {
 
   const login = async ({ username, password }: { username: string, password: string }): Promise<any> => {
     try {
-      const response = await axios.post(`${BASE_URL}login`, { username, password }, {
-        withCredentials: true
-      })
-
+      const response = await axios.post(`${BASE_URL}login`, { username, password })
       return response.data
     } catch (error: any) {
       return showError(error)
@@ -53,11 +49,10 @@ const api = (() => {
 
   const verifyToken = async (): Promise<any> => {
     try {
-      const response = await axios.post(`${BASE_URL}verify`, {
+      const response = await axios.get(`${BASE_URL}verify`, {
         headers: {
           Authorization: `Bearer ${getAccessToken()}`
-        },
-        withCredentials: true
+        }
       })
 
       return response.data
@@ -68,10 +63,7 @@ const api = (() => {
 
   const logout = async (): Promise<any> => {
     try {
-      const response = await axios.delete(`${BASE_URL}logout`, {
-        withCredentials: true
-      })
-
+      const response = await axios.delete(`${BASE_URL}logout`)
       return response.data
     } catch (error: any) {
       return showError(error)
@@ -83,8 +75,7 @@ const api = (() => {
       const response = await axios.post(`${BASE_URL}product`, { name, capitalPrice, sellPrice, stock, unit }, {
         headers: {
           Authorization: `Bearer ${getAccessToken()}`
-        },
-        withCredentials: true
+        }
       })
 
       return response.data
@@ -98,8 +89,7 @@ const api = (() => {
       const response = await axios.get(`${BASE_URL}product`, {
         headers: {
           Authorization: `Bearer ${getAccessToken()}`
-        },
-        withCredentials: true
+        }
       })
 
       return response.data
@@ -113,8 +103,7 @@ const api = (() => {
       const response = await axios.put(`${BASE_URL}product`, { id, name, capitalPrice, sellPrice, stock, unit }, {
         headers: {
           Authorization: `Bearer ${getAccessToken()}`
-        },
-        withCredentials: true
+        }
       })
 
       return response.data
@@ -128,8 +117,7 @@ const api = (() => {
       const response = await axios.put(`${BASE_URL}product/delete`, { id }, {
         headers: {
           Authorization: `Bearer ${getAccessToken()}`
-        },
-        withCredentials: true
+        }
       })
 
       return response.data
