@@ -13,6 +13,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 const AuthPageLayout = ({ children }: IAuthPageLayoutProps): ReactElement => {
   const dispatch = useDispatch()
+
   const message: IStateMessage | null = useSelector((state: RootState) => state.message)
   const isLoading: boolean = useSelector((state: RootState) => state.isLoading)
 
@@ -20,7 +21,7 @@ const AuthPageLayout = ({ children }: IAuthPageLayoutProps): ReactElement => {
     if (message !== null) {
       setTimeout(() => {
         dispatch(unsetMessageActionCreator())
-      }, 3000)
+      }, 2000)
     }
   }, [message])
 

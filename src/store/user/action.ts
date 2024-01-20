@@ -34,22 +34,11 @@ const asyncSetUser = ({ username, password }: { username: string, password: stri
     try {
       const response: { error: boolean, accessToken: string, message: string, user: IStateUser } = await api.login({ username, password })
 
-      if (response.error) {
-        return response
-      } else {
+      if (!response.error) {
         api.putAccessToken(`${response.accessToken}`)
         dispatch(setUserActionCreator(response.user))
       }
-    } catch (error: any) {
-      console.error(error.message)
-    }
-  }
-}
 
-const asyncVerifyUserToken = (): any => {
-  return async (dispatch: Dispatch) => {
-    try {
-      const response: { error: boolean, message: string, user: IStateUser } = await api.verifyToken()
       return response
     } catch (error: any) {
       console.error(error.message)
@@ -80,6 +69,5 @@ export {
   setUserActionCreator,
   unsetUserActionCreator,
   asyncSetUser,
-  asyncVerifyUserToken,
   asyncUnsetAuthUser
 }

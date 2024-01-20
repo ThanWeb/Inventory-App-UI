@@ -14,6 +14,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 const DefaultLayout = ({ children }: IDefaultLayoutProps): ReactElement => {
   const dispatch = useDispatch()
+
   const user: IStateUser | null = useSelector((state: RootState) => state.user)
   const message: IStateMessage | null = useSelector((state: RootState) => state.message)
   const isLoading: boolean = useSelector((state: RootState) => state.isLoading)
@@ -22,7 +23,7 @@ const DefaultLayout = ({ children }: IDefaultLayoutProps): ReactElement => {
     if (message !== null) {
       setTimeout(() => {
         dispatch(unsetMessageActionCreator())
-      }, 3000)
+      }, 2000)
     }
   }, [message])
 

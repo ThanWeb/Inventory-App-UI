@@ -4,13 +4,14 @@ import { useRouter } from 'next/router'
 import { useSelector, useDispatch } from 'react-redux'
 import { asyncGetProducts, asyncAddProduct, asyncEditProduct, asyncDeleteProduct } from '@/store/products/action'
 import type { RootState } from '@/store/index'
-import { type IStateUser, asyncVerifyUserToken, setUserActionCreator } from '@/store/user/action'
+import { type IStateUser, setUserActionCreator } from '@/store/user/action'
 import { setLoadingTrueActionCreator, setLoadingFalseActionCreator } from '@/store/isLoading/action'
 import { setMessageActionCreator } from '@/store/message/action'
 import DefaultLayout from '@/layouts/default'
 import PaginationTable from '@/components/PaginationTable'
 import ProductInputModal from '@/components/ProductInputModal'
 import type IProduct from '@/types/product'
+import api from '@/utils/api'
 
 export default function Home (): ReactElement {
   const router = useRouter()
@@ -31,11 +32,11 @@ export default function Home (): ReactElement {
 
   useEffect(() => {
     void init()
-  }, [dispatch])
+  }, [])
 
   const init = async (): Promise<void> => {
     dispatch(setLoadingTrueActionCreator())
-    const response: { error: boolean, message: string, user: IStateUser } = await dispatch(asyncVerifyUserToken())
+    const response: { error: boolean, message: string, user: IStateUser } = await api.verifyToken()
 
     if (response.error) {
       dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
