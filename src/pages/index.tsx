@@ -1,5 +1,5 @@
-import { Inter } from 'next/font/google'
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 import { type ReactElement, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { asyncGetProducts, asyncAddProduct, asyncEditProduct, asyncDeleteProduct } from '@/store/products/action'
@@ -11,8 +11,6 @@ import DefaultLayout from '@/layouts/default'
 import PaginationTable from '@/components/PaginationTable'
 import ProductInputModal from '@/components/ProductInputModal'
 import type IProduct from '@/types/product'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export default function Home (): ReactElement {
   const router = useRouter()
@@ -120,41 +118,47 @@ export default function Home (): ReactElement {
   }
 
   return (
-    <div className={`flex flex-col ${inter.className}`}>
-      <div className='container mx-auto flex flex-col items-center'>
-        <div>
-          <button type='button' onClick={() => { showProductModalForAction('add', null, 0) }} >Tambah</button>
-          <input type='text' placeholder='Cari item' value={searchQuery} onChange={(event) => { setSearchQuery(event.target.value) }}/>
+    <>
+      <Head>
+        <title>Inventory App</title>
+        <meta name='description' content='Sign in to flynar website' />
+      </Head>
+      <div className='flex flex-col'>
+        <div className='container mx-auto flex flex-col items-center'>
+          <div>
+            <button type='button' onClick={() => { showProductModalForAction('add', null, 0) }} >Tambah</button>
+            <input type='text' placeholder='Cari item' value={searchQuery} onChange={(event) => { setSearchQuery(event.target.value) }}/>
+          </div>
+          <PaginationTable
+            rawItems={products.filter((product) => { return product.name.toLowerCase().includes(searchQuery.toLowerCase()) })}
+            props={{
+              searchQuery,
+              showProductModalForAction
+            }}
+          />
         </div>
-        <PaginationTable
-          rawItems={products.filter((product) => { return product.name.toLowerCase().includes(searchQuery.toLowerCase()) })}
-          props={{
-            searchQuery,
-            showProductModalForAction
-          }}
-        />
+        <div className={`${isProductModalShowed ? 'fixed z-50' : 'hidden'} w-screen h-screen`}>
+          <ProductInputModal
+            props={{
+              name,
+              setName,
+              capitalPrice,
+              setCapitalPrice,
+              sellPrice,
+              setSellPrice,
+              stock,
+              setStock,
+              unit,
+              setUnit,
+              selectedAction,
+              isThereAnyChange: checkIsThereAnyChange(),
+              setIsProductModalShowed,
+              productModalSubmitHandler
+            }}
+          />
+        </div>
       </div>
-      <div className={`${isProductModalShowed ? 'fixed z-50' : 'hidden'} w-screen h-screen`}>
-        <ProductInputModal
-          props={{
-            name,
-            setName,
-            capitalPrice,
-            setCapitalPrice,
-            sellPrice,
-            setSellPrice,
-            stock,
-            setStock,
-            unit,
-            setUnit,
-            selectedAction,
-            isThereAnyChange: checkIsThereAnyChange(),
-            setIsProductModalShowed,
-            productModalSubmitHandler
-          }}
-        />
-      </div>
-    </div>
+    </>
   )
 }
 
