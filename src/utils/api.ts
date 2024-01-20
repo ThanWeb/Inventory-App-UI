@@ -3,6 +3,13 @@ import type IProduct from '../types/product'
 
 const showError = (error: any): any => {
   if (axios.isAxiosError(error)) {
+    if (error.message === 'Network Error') {
+      return {
+        error: true,
+        message: error.message
+      }
+    }
+
     return error?.response?.data
   } else {
     return error
