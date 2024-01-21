@@ -1,5 +1,6 @@
 export default interface IProduct {
   id?: number
+  userId?: number
   name: string
   capitalPrice: number
   sellPrice: number

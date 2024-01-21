@@ -7,6 +7,7 @@ import { type RootState } from '@/store'
 import { unsetMessageActionCreator, type IStateMessage, setMessageActionCreator } from '@/store/message/action'
 import { type IStateUser, asyncUnsetAuthUser } from '@/store/user/action'
 import { setLoadingFalseActionCreator, setLoadingTrueActionCreator } from '@/store/isLoading/action'
+import Loading from '@/components/Loading'
 
 interface IDefaultLayoutProps {
   children: React.ReactNode
@@ -63,7 +64,7 @@ const DefaultLayout = ({ children }: IDefaultLayoutProps): ReactElement => {
       </main>
       <div className={inter.className}>
         <p>{message?.text}</p>
-        <p>{isLoading ? 'Sabar Lagi Loading' : 'Udah Gak Loading'}</p>
+        <Loading isLoading={isLoading} />
       </div>
       <footer className={inter.className}>
         Ini Footer

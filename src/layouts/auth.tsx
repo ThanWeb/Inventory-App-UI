@@ -4,6 +4,7 @@ import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import { type RootState } from '@/store'
 import { unsetMessageActionCreator, type IStateMessage } from '@/store/message/action'
+import Loading from '@/components/Loading'
 
 interface IAuthPageLayoutProps {
   children: React.ReactNode
@@ -37,7 +38,7 @@ const AuthPageLayout = ({ children }: IAuthPageLayoutProps): ReactElement => {
       </main>
       <div className={inter.className}>
         <p>{message?.text}</p>
-        <p>{isLoading ? 'Sabar Lagi Loading' : 'Udah Gak Loading'}</p>
+        <Loading isLoading={isLoading} />
       </div>
     </>
   )
