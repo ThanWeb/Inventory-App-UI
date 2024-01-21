@@ -1,10 +1,12 @@
 import { useEffect, type ReactElement } from 'react'
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
+import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 import { type RootState } from '@/store'
-import { unsetMessageActionCreator, type IStateMessage } from '@/store/message/action'
-import { type IStateUser } from '@/store/user/action'
+import { unsetMessageActionCreator, type IStateMessage, setMessageActionCreator } from '@/store/message/action'
+import { type IStateUser, asyncUnsetAuthUser } from '@/store/user/action'
+import { setLoadingFalseActionCreator, setLoadingTrueActionCreator } from '@/store/isLoading/action'
 
 interface IDefaultLayoutProps {
   children: React.ReactNode
@@ -13,6 +15,7 @@ interface IDefaultLayoutProps {
 const inter = Inter({ subsets: ['latin'] })
 
 const DefaultLayout = ({ children }: IDefaultLayoutProps): ReactElement => {
+  const router = useRouter()
   const dispatch = useDispatch()
 
   const user: IStateUser | null = useSelector((state: RootState) => state.user)
@@ -27,6 +30,23 @@ const DefaultLayout = ({ children }: IDefaultLayoutProps): ReactElement => {
     }
   }, [message])
 
+  const handleLogout = async (): Promise<void> => {
+    dispatch(setLoadingTrueActionCreator())
+    const { error, message } = await dispatch(asyncUnsetAuthUser())
+    dispatch(setMessageActionCreator({ error, text: message }))
+
+    if (!error) {
+      setTimeout(() => {
+        void router.push('/sign-in')
+        dispatch(setLoadingFalseActionCreator())
+      }, 3000)
+
+      return
+    }
+
+    dispatch(setLoadingFalseActionCreator())
+  }
+
   return (
     <>
       <Head>
@@ -36,6 +56,7 @@ const DefaultLayout = ({ children }: IDefaultLayoutProps): ReactElement => {
       </Head>
       <header className={inter.className}>
         <p>{user !== null ? user.username : 'Guest'}</p>
+        <button type='button' onClick={() => { void handleLogout() }}>Keluar</button>
       </header>
       <main className={inter.className}>
         {children}

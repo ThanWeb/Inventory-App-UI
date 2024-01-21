@@ -51,12 +51,12 @@ const asyncUnsetAuthUser = (): any => {
     try {
       const response = await api.logout()
 
-      if (response.error) {
-        return response
-      } else {
+      if (!response.error) {
         dispatch(unsetUserActionCreator())
         api.putAccessToken('')
       }
+
+      return response
     } catch (error: any) {
       console.log(error.message)
     }
