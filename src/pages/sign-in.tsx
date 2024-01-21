@@ -2,12 +2,14 @@ import { useState, type ReactElement } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import AuthPageLayout from '@/layouts/auth'
 import AuthForm from '@/components/AuthForm'
+import Message from '@/components/Message'
+import type { RootState } from '@/store/index'
 import { asyncSetUser } from '@/store/user/action'
 import { setLoadingTrueActionCreator, setLoadingFalseActionCreator } from '@/store/isLoading/action'
-import { setMessageActionCreator } from '@/store/message/action'
+import { type IStateMessage, setMessageActionCreator } from '@/store/message/action'
 
 export default function SignIn (): ReactElement {
   const router = useRouter()
@@ -16,6 +18,8 @@ export default function SignIn (): ReactElement {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+
+  const message: IStateMessage | null = useSelector((state: RootState) => state.message)
 
   const togglePasswordVisibility = (): void => {
     setShowPassword(!showPassword)
@@ -56,8 +60,8 @@ export default function SignIn (): ReactElement {
         <title>Sign In | Inventory App</title>
         <meta name='description' content='Sign In'/>
       </Head>
-      <div>
-        <h1>Sign In</h1>
+      <div className='m-auto px-8 w-full flex flex-col gap-y-6'>
+        <h1 className='text-2xl'>Masuk</h1>
         <div>
           <AuthForm
             props={{
@@ -72,9 +76,11 @@ export default function SignIn (): ReactElement {
             }}
           />
         </div>
-        <div>
-          <p>Belum Punya Akun? Silahkan <Link href='/sign-up'>Daftar</Link></p>
+        <div className='flex justify-end gap-x-1'>
+          <p>Belum Punya Akun?</p>
+          <p>Silahkan <Link href='/sign-up'>Daftar</Link></p>
         </div>
+        <Message message={message} />
       </div>
     </>
   )

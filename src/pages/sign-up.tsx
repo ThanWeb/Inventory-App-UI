@@ -2,10 +2,12 @@ import { useState, type ReactElement } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import AuthPageLayout from '@/layouts/auth'
 import AuthForm from '@/components/AuthForm'
-import { setMessageActionCreator } from '@/store/message/action'
+import Message from '@/components/Message'
+import { type RootState } from '@/store'
+import { type IStateMessage, setMessageActionCreator } from '@/store/message/action'
 import { setLoadingTrueActionCreator, setLoadingFalseActionCreator } from '@/store/isLoading/action'
 import api from '@/utils/api'
 
@@ -16,6 +18,8 @@ export default function SignUp (): ReactElement {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+
+  const message: IStateMessage | null = useSelector((state: RootState) => state.message)
 
   const togglePasswordVisibility = (): void => {
     setShowPassword(!showPassword)
@@ -56,8 +60,8 @@ export default function SignUp (): ReactElement {
         <title>Sign Up | Inventory App</title>
         <meta name='description' content='Sign Up'/>
       </Head>
-      <div>
-        <h1>Sign In</h1>
+      <div className='m-auto px-8 w-full flex flex-col gap-y-6'>
+        <h1 className='text-2xl'>Daftar</h1>
         <div>
           <AuthForm
             props={{
@@ -72,9 +76,11 @@ export default function SignUp (): ReactElement {
             }}
           />
         </div>
-        <div>
-          <p>Sudah Mendaftar? Silahkan <Link href='/sign-in'>Masuk</Link></p>
+        <div className='flex justify-end gap-x-1'>
+          <p>Sudah Mendaftar?</p>
+          <p>Silahkan <Link href='/sign-in'>Masuk</Link></p>
         </div>
+        <Message message={message} />
       </div>
     </>
   )
