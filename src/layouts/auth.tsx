@@ -33,11 +33,10 @@ const AuthPageLayout = ({ children }: IAuthPageLayoutProps): ReactElement => {
         <link rel='icon' href='/favicon/favicon.ico' sizes='any' />
         <link rel='apple-touch-icon' href='/favicon/apple-touch-icon.png' type='image/png' sizes='any' />
       </Head>
-      <main className={inter.className}>
+      <main className={`${inter.className} w-screen h-screen flex`}>
         {children}
       </main>
       <div className={inter.className}>
-        <p>{message?.text}</p>
         <Loading isLoading={isLoading} />
       </div>
     </>

@@ -42,7 +42,9 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
         }
 
         setSplitedItems(tempSplitedItems)
-        setPropsItem(Object.getOwnPropertyNames(tempSplitedItems[0][0]).filter((item) => { return item !== 'id' && item !== 'isDeleted' }))
+        setPropsItem(Object.getOwnPropertyNames(tempSplitedItems[0][0]).filter((item) => {
+          return item !== 'id' && item !== 'isDeleted' && item !== 'userId'
+        }))
       }
     }
   }
@@ -110,7 +112,7 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
                                 prop === 'stock' ||
                                 prop === 'unit'
                               ) {
-                                return <td key={index} className='px-3 border'>
+                                return <td key={index} className='px-3 border capitalize'>
                                   <span>{item[prop]}</span>
                                 </td>
                               }

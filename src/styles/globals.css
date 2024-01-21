@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+input::-ms-reveal, input::-ms-clear {
+  display: none;
+}
+
 .loader{
   animation: 1s move-upside-down linear infinite;
 }
