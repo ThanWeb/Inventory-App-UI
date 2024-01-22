@@ -49,10 +49,10 @@ const ProductInputModal = ({ props }: IProps): ReactElement => {
   return (
     <div className='w-full h-full relative top-0 left-0 flex'>
       <div
-        className='absolute z-20 bg-white opacity-70 w-screen h-screen top-0 left-0'
+        className='absolute z-20 bg-slate-300 opacity-70 w-screen h-screen top-0 left-0'
         onClick={() => { props.setIsProductModalShowed(false) }}
       />
-      <div className='z-30 bg-white w-4/5 m-auto h-fit shadow-xl p-6'>
+      <div className='z-30 bg-white w-4/5 lg:w-3/5 m-auto h-fit shadow-xl p-6'>
         <form
           onSubmit={(event: React.FormEvent<HTMLFormElement>) => { void props.productModalSubmitHandler(event, props.selectedAction) }}
           className='flex flex-col gap-y-3'

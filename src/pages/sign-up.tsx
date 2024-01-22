@@ -60,7 +60,7 @@ export default function SignUp (): ReactElement {
         <title>Sign Up | Inventory App</title>
         <meta name='description' content='Sign Up'/>
       </Head>
-      <div className='m-auto p-8 w-full flex flex-col gap-y-6'>
+      <div className='m-auto p-8 w-full md:w-8/12 lg:w-4/12 flex flex-col gap-y-6'>
         <h1 className='text-2xl font-bold'>Daftar</h1>
         <div>
           <AuthForm
