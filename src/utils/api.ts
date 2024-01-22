@@ -19,7 +19,7 @@ const showError = (error: any): any => {
 axios.defaults.withCredentials = true
 
 const api = (() => {
-  const BASE_URL = process.env.ENVIRONMENT === 'production' ? process.env.BASE_URL : 'http://localhost:8000/'
+  const BASE_URL = process.env.ENVIRONMENT === 'development' ? 'http://localhost:8000/' : 'https://inventory-app-rest-api.up.railway.app/'
 
   const putAccessToken = (token: string): void => {
     localStorage.setItem('accessToken', token)
