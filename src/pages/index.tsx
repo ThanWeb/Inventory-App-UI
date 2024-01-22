@@ -79,6 +79,7 @@ export default function Home (): ReactElement {
 
   const productModalSubmitHandler = async (event: React.FormEvent<HTMLFormElement>, action: string): Promise<void> => {
     event.preventDefault()
+    dispatch(setLoadingTrueActionCreator())
 
     try {
       switch (action) {
@@ -99,6 +100,8 @@ export default function Home (): ReactElement {
     } catch (error) {
       console.error(error)
     }
+
+    dispatch(setLoadingFalseActionCreator())
   }
 
   const checkIsThereAnyChange = (): boolean => {
@@ -129,7 +132,7 @@ export default function Home (): ReactElement {
       </Head>
       <div className='flex flex-col py-4 px-6'>
         <div className='container mx-auto flex flex-col items-center gap-y-6'>
-          <div className='w-full flex flex-col items-start justify-start gap-y-3'>
+          <div className='w-full flex flex-col items-start justify-start gap-y-4'>
             <button
               type='button'
               onClick={() => { showProductModalForAction('add', null, 0) }}
@@ -154,7 +157,7 @@ export default function Home (): ReactElement {
             }}
           />
         </div>
-        <div className={`${isProductModalShowed ? 'fixed z-50' : 'hidden'} w-screen h-screen`}>
+        <div className={`${isProductModalShowed ? 'fixed z-20' : 'hidden'} w-screen h-screen top-0 left-0`}>
           <ProductInputModal
             props={{
               name,

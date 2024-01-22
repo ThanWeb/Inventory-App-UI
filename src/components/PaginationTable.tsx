@@ -16,7 +16,7 @@ interface IProps {
 
 const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [itemsShowedOption, setItemsShowedOption] = useState([1, 5, 15, 25, 50, 100])
+  const [itemsShowedOption, setItemsShowedOption] = useState([15, 25, 50, 100])
   const [splitedItems, setSplitedItems] = useState<IProduct[][]>([[]])
   const [paginationItem, setPaginationItem] = useState(itemsShowedOption[0])
   const [activePagination, setActivePagination] = useState(0)
@@ -137,16 +137,16 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
                               <button
                                 type='button'
                                 onClick={() => { props.showProductModalForAction('edit', item, item.id ?? 0) }}
-                                className='w-7 h-7 flex bg-red-600'
+                                className='w-7 h-7 flex bg-amber-500'
                               >
-                                <HiOutlineTrash className='m-auto text-white' />
+                                <HiOutlinePencil className='m-auto text-white' />
                               </button>
                               <button
                                 type='button'
                                 onClick={() => { props.showProductModalForAction('delete', item, item.id ?? 0) }}
-                                className='w-7 h-7 flex bg-amber-600'
+                                className='w-7 h-7 flex bg-red-600'
                               >
-                                <HiOutlinePencil className='m-auto text-white' />
+                                <HiOutlineTrash className='m-auto text-white' />
                               </button>
                             </div>
                           </td>
