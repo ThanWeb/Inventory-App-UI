@@ -3,11 +3,12 @@ import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
+import Header from '@/components/Header'
+import Loading from '@/components/Loading'
 import { type RootState } from '@/store'
 import { unsetMessageActionCreator, type IStateMessage, setMessageActionCreator } from '@/store/message/action'
 import { type IStateUser, asyncUnsetAuthUser } from '@/store/user/action'
 import { setLoadingFalseActionCreator, setLoadingTrueActionCreator } from '@/store/isLoading/action'
-import Loading from '@/components/Loading'
 
 interface IDefaultLayoutProps {
   children: React.ReactNode
@@ -55,20 +56,19 @@ const DefaultLayout = ({ children }: IDefaultLayoutProps): ReactElement => {
         <link rel='icon' href='/favicon/favicon.ico' sizes='any' />
         <link rel='apple-touch-icon' href='/favicon/apple-touch-icon.png' type='image/png' sizes='any' />
       </Head>
-      <header className={inter.className}>
-        <p>{user !== null ? user.username : 'Guest'}</p>
-        <button type='button' onClick={() => { void handleLogout() }}>Keluar</button>
-      </header>
+      <Header
+        user={user}
+        handleLogout={handleLogout}
+      />
       <main className={inter.className}>
         {children}
       </main>
       <div className={inter.className}>
-        <p>{message?.text}</p>
         <Loading isLoading={isLoading} />
       </div>
-      <footer className={inter.className}>
+      {/* <footer className={inter.className}>
         Ini Footer
-      </footer>
+      </footer> */}
     </>
   )
 }

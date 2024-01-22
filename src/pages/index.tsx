@@ -2,14 +2,16 @@ import { type ReactElement, useEffect, useState } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useSelector, useDispatch } from 'react-redux'
-import { asyncGetProducts, asyncAddProduct, asyncEditProduct, asyncDeleteProduct } from '@/store/products/action'
-import type { RootState } from '@/store/index'
-import { type IStateUser, setUserActionCreator } from '@/store/user/action'
-import { setLoadingTrueActionCreator, setLoadingFalseActionCreator } from '@/store/isLoading/action'
-import { setMessageActionCreator } from '@/store/message/action'
+import { HiMiniPlusCircle } from 'react-icons/hi2'
 import DefaultLayout from '@/layouts/default'
+import Message from '@/components/Message'
 import PaginationTable from '@/components/PaginationTable'
 import ProductInputModal from '@/components/ProductInputModal'
+import type { RootState } from '@/store/index'
+import { type IStateUser, setUserActionCreator } from '@/store/user/action'
+import { asyncGetProducts, asyncAddProduct, asyncEditProduct, asyncDeleteProduct } from '@/store/products/action'
+import { setLoadingTrueActionCreator, setLoadingFalseActionCreator } from '@/store/isLoading/action'
+import { type IStateMessage, setMessageActionCreator } from '@/store/message/action'
 import type IProduct from '@/types/product'
 import api from '@/utils/api'
 
@@ -18,6 +20,7 @@ export default function Home (): ReactElement {
   const dispatch = useDispatch()
 
   const products: IProduct[] | never[] = useSelector((state: RootState) => state.products)
+  const message: IStateMessage | null = useSelector((state: RootState) => state.message)
 
   const [searchQuery, setSearchQuery] = useState('')
   const [isProductModalShowed, setIsProductModalShowed] = useState(false)
@@ -124,11 +127,24 @@ export default function Home (): ReactElement {
         <title>Inventory App</title>
         <meta name='description' content='Sign in to flynar website' />
       </Head>
-      <div className='flex flex-col'>
-        <div className='container mx-auto flex flex-col items-center'>
-          <div>
-            <button type='button' onClick={() => { showProductModalForAction('add', null, 0) }} >Tambah</button>
-            <input type='text' placeholder='Cari item' value={searchQuery} onChange={(event) => { setSearchQuery(event.target.value) }}/>
+      <div className='flex flex-col py-4 px-6'>
+        <div className='container mx-auto flex flex-col items-center gap-y-6'>
+          <div className='w-full flex flex-col items-start justify-start gap-y-3'>
+            <button
+              type='button'
+              onClick={() => { showProductModalForAction('add', null, 0) }}
+              className='flex gap-x-2 items-center bg-green-600 text-white px-3 py-2 w-fit'
+            >
+              <HiMiniPlusCircle className='w-6 h-6 text-green-200' />
+              <span className='whitespace-nowrap'>Tambah Barang</span>
+            </button>
+            <input
+              type='text'
+              placeholder='Cari item'
+              value={searchQuery}
+              onChange={(event) => { setSearchQuery(event.target.value) }}
+              className='border border-sky-700 hover:border-amber-600 w-full py-3 px-2'
+            />
           </div>
           <PaginationTable
             rawItems={products.filter((product) => { return product.name.toLowerCase().includes(searchQuery.toLowerCase()) })}
@@ -159,6 +175,7 @@ export default function Home (): ReactElement {
           />
         </div>
       </div>
+      <Message message={message} />
     </>
   )
 }
