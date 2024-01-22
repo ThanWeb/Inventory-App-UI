@@ -23,11 +23,16 @@ const AuthForm = ({ props }: IProps): ReactElement => {
       className='flex flex-col gap-y-4'
     >
       <div className='flex flex-col gap-y-2'>
-        <label htmlFor='username'>Nama Pengguna</label>
+        <label
+          htmlFor='username'
+          className='font-semibold'
+        >
+          Nama Pengguna
+        </label>
         <input
           id='username'
           type='text'
-          className='border border-blue-950 w-full py-3 px-2'
+          className='border border-blue-950 hover:border-amber-600 w-full py-3 px-2'
           value={props.username}
           onChange={(event) => { props.setUsername(event.target.value) }}
           placeholder='John Doe'
@@ -37,12 +42,17 @@ const AuthForm = ({ props }: IProps): ReactElement => {
         />
       </div>
       <div className='flex flex-col gap-y-2'>
-        <label htmlFor='password'>Kata Sandi</label>
+        <label
+          htmlFor='password'
+          className='font-semibold'
+        >
+          Kata Sandi
+        </label>
         <div className='w-full relative flex items-center'>
           <input
             type={props.showPassword ? 'text' : 'password'}
             value={props.password}
-            className='border border-blue-950 w-full py-3 px-2'
+            className='border border-blue-950 hover:border-amber-600 w-full py-3 px-2'
             id='password'
             placeholder='secret'
             onChange={(e) => { props.setPassword(e.target.value) }}
@@ -62,7 +72,10 @@ const AuthForm = ({ props }: IProps): ReactElement => {
         </div>
       </div>
       <div className='mt-2'>
-        <button type='submit' className='bg-blue-950 text-white w-full py-3 px-1 text-center'>
+        <button
+          type='submit'
+          className='bg-sky-600 hover:bg-amber-600 text-white w-full py-3 px-1 text-center'
+        >
           {
             props.isLoginPage ? 'Masuk' : 'Daftar'
           }

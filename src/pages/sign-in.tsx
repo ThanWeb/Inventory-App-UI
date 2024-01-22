@@ -60,8 +60,8 @@ export default function SignIn (): ReactElement {
         <title>Sign In | Inventory App</title>
         <meta name='description' content='Sign In'/>
       </Head>
-      <div className='m-auto px-8 w-full flex flex-col gap-y-6'>
-        <h1 className='text-2xl'>Masuk</h1>
+      <div className='m-auto p-8 w-full flex flex-col gap-y-6'>
+        <h1 className='text-2xl font-bold'>Masuk</h1>
         <div>
           <AuthForm
             props={{
@@ -78,7 +78,7 @@ export default function SignIn (): ReactElement {
         </div>
         <div className='flex justify-end gap-x-1'>
           <p>Belum Punya Akun?</p>
-          <p>Silahkan <Link href='/sign-up'>Daftar</Link></p>
+          <p>Silahkan <Link href='/sign-up' className='font-bold text-blue-950'>Daftar</Link></p>
         </div>
         <Message message={message} />
       </div>
