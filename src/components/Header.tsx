@@ -34,7 +34,7 @@ const Header = ({ handleLogout, user }: IHederProps): ReactElement => {
   }
 
   return (
-    <header className={`${inter.className} w-screen sticky top-0 left-0 flex justify-end px-8 py-3 shadow-md`}>
+    <header className={`${inter.className} w-screen sticky top-0 left-0 flex justify-end px-8 py-3 shadow-md z-20 bg-white`}>
       {
         user === null
           ? <Link href='/sign-in'>Masuk</Link>
