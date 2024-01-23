@@ -38,3 +38,11 @@ input::-ms-reveal, input::-ms-clear {
     transform: translateY(50%);
   }
 }
+
+#navbar {
+  left: 0;
+}
+
+#navbar.hide {
+  left: -100%;
+}
