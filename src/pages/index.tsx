@@ -1,8 +1,9 @@
 import { type ReactElement, useEffect, useState } from 'react'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useSelector, useDispatch } from 'react-redux'
-import { HiMiniPlusCircle } from 'react-icons/hi2'
+import { HiMiniPlusCircle, HiSquaresPlus } from 'react-icons/hi2'
 import DefaultLayout from '@/layouts/default'
 import Message from '@/components/Message'
 import PaginationTable from '@/components/PaginationTable'
@@ -81,16 +82,21 @@ export default function Home (): ReactElement {
     event.preventDefault()
     dispatch(setLoadingTrueActionCreator())
 
+    let response = null
+
     try {
       switch (action) {
       case 'add':
-        await dispatch(asyncAddProduct({ name, capitalPrice, sellPrice, stock, unit }))
+        response = await dispatch(asyncAddProduct({ name, capitalPrice, sellPrice, stock, unit }))
+        dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
         break
       case 'edit':
-        await dispatch(asyncEditProduct({ id, product: { name, capitalPrice, sellPrice, stock, unit } }))
+        response = await dispatch(asyncEditProduct({ id, product: { name, capitalPrice, sellPrice, stock, unit } }))
+        dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
         break
       case 'delete':
-        await dispatch(asyncDeleteProduct({ id }))
+        response = await dispatch(asyncDeleteProduct({ id }))
+        dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
         break
       default:
         break
@@ -132,15 +138,19 @@ export default function Home (): ReactElement {
       </Head>
       <div className='flex flex-col py-4 px-6 md:py-6 md:px-12'>
         <div className='container mx-auto flex flex-col items-center gap-y-6'>
-          <div className='w-full flex flex-col items-start justify-start gap-y-4'>
+          <div className='w-full flex items-start justify-start gap-4 flex-wrap'>
             <button
               type='button'
               onClick={() => { showProductModalForAction('add', null, 0) }}
               className='flex gap-x-2 items-center bg-green-600 text-white px-3 py-2 w-fit'
             >
               <HiMiniPlusCircle className='w-6 h-6 text-green-200' />
-              <span className='whitespace-nowrap'>Tambah Barang</span>
+              <span className='whitespace-nowrap'>Tambah Produk</span>
             </button>
+            <Link href='/add' className='flex gap-x-2 items-center bg-green-600 text-white px-3 py-2 w-fit'>
+              <HiSquaresPlus className='w-6 h-6 text-green-200' />
+              <span className='whitespace-nowrap'>Tambah Beberapa Produk</span>
+            </Link>
             <input
               type='text'
               placeholder='Cari item'

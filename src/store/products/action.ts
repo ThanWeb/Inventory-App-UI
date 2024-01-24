@@ -65,6 +65,8 @@ const asyncAddProduct = ({ name, capitalPrice, sellPrice, stock, unit }: IProduc
       if (!response.error) {
         dispatch(createProductActionCreator(response.product))
       }
+
+      return response
     } catch (error) {
       console.error(error)
     }
@@ -79,6 +81,8 @@ const asyncEditProduct = ({ id, product: { name, capitalPrice, sellPrice, stock,
       if (!response.error) {
         dispatch(updateProductActionCreator(id, { name, capitalPrice, sellPrice, stock, unit }))
       }
+
+      return response
     } catch (error) {
       console.error(error)
     }
@@ -93,6 +97,8 @@ const asyncDeleteProduct = ({ id }: { id: number }): any => {
       if (!response.error) {
         dispatch(deleteProductActionCreator(id))
       }
+
+      return response
     } catch (error) {
       console.error(error)
     }
