@@ -1,4 +1,5 @@
 import { type ReactElement } from 'react'
+import ProductInput from '@/components/ProductInput'
 
 interface IProductInputModal {
   name: string
@@ -57,67 +58,24 @@ const ProductInputModal = ({ props }: IProps): ReactElement => {
           onSubmit={(event: React.FormEvent<HTMLFormElement>) => { void props.productModalSubmitHandler(event, props.selectedAction) }}
           className='flex flex-col gap-y-3'
         >
-          <div className='flex flex-col gap-y-2'>
-            <label htmlFor='name'>Nama</label>
-            <input
-              id='name'
-              type='text'
-              value={props.name}
-              className='border border-slate-200 hover:border-amber-600 w-full p-2'
-              onChange={(event) => { props.setName(event.target.value) }}
-              placeholder='Pensil 2B'
-              disabled={props.selectedAction === 'detail' || props.selectedAction === 'delete'}
-              required
-            />
-          </div>
-          <div className='flex flex-col gap-y-2'>
-            <label htmlFor='capitalPrice'>Modal</label>
-            <input
-              id='capitalPrice'
-              type='number'
-              value={props.capitalPrice}
-              className='border border-slate-200 hover:border-amber-600 w-full p-2'
-              onChange={(event) => { props.setCapitalPrice(parseInt(event.target.value)) }}
-              placeholder='10000'
-              disabled={props.selectedAction === 'detail' || props.selectedAction === 'delete'}
-              required/>
-          </div>
-          <div className='flex flex-col gap-y-2'>
-            <label htmlFor='sellPrice'>Harga Jual</label>
-            <input
-              id='sellPrice'
-              type='number'
-              value={props.sellPrice}
-              className='border border-slate-200 hover:border-amber-600 w-full p-2'
-              onChange={(event) => { props.setSellPrice(parseInt(event.target.value)) }}
-              placeholder='20000'
-              disabled={props.selectedAction === 'detail' || props.selectedAction === 'delete'}
-              required/>
-          </div>
-          <div className='flex flex-col gap-y-2'>
-            <label htmlFor='stock'>Stok</label>
-            <input
-              id='stock'
-              type='number'
-              value={props.stock}
-              className='border border-slate-200 hover:border-amber-600 w-full p-2'
-              onChange={(event) => { props.setStock(parseInt(event.target.value)) }}
-              placeholder='10'
-              disabled={props.selectedAction === 'detail' || props.selectedAction === 'delete'}
-              required/>
-          </div>
-          <div className='flex flex-col gap-y-2'>
-            <label htmlFor='unit'>Satuan</label>
-            <input
-              id='unit'
-              type='text'
-              value={props.unit}
-              className='border border-slate-200 hover:border-amber-600 w-full p-2'
-              onChange={(event) => { props.setUnit(event.target.value) }}
-              placeholder='Pcs'
-              disabled={props.selectedAction === 'detail' || props.selectedAction === 'delete'}
-              required/>
-          </div>
+          <ProductInput
+            props={{
+              index: 0,
+              isDynamic: false,
+              name: props.name,
+              setName: props.setName,
+              capitalPrice: props.capitalPrice,
+              setCapitalPrice: props.setCapitalPrice,
+              sellPrice: props.sellPrice,
+              setSellPrice: props.setSellPrice,
+              stock: props.stock,
+              setStock: props.setStock,
+              unit: props.unit,
+              setUnit: props.setUnit,
+              selectedAction: props.selectedAction,
+              handleFieldChange: () => {}
+            }}
+          />
           { renderButtons(props.selectedAction) }
         </form>
       </div>
