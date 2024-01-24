@@ -73,6 +73,17 @@ const asyncAddProduct = ({ name, capitalPrice, sellPrice, stock, unit }: IProduc
   }
 }
 
+const asyncAddMultipleProduct = ({ products }: { products: IProduct[] }): any => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const response: { error: boolean, product: IProduct } = await api.addMultipleProduct({ products })
+      return response
+    } catch (error) {
+      console.error(error)
+    }
+  }
+}
+
 const asyncEditProduct = ({ id, product: { name, capitalPrice, sellPrice, stock, unit } }: { id: number, product: IProduct }): any => {
   return async (dispatch: Dispatch) => {
     try {
@@ -109,6 +120,7 @@ export {
   ActionType,
   asyncGetProducts,
   asyncAddProduct,
+  asyncAddMultipleProduct,
   asyncEditProduct,
   asyncDeleteProduct
 }
