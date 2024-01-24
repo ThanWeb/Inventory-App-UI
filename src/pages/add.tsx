@@ -119,8 +119,8 @@ export default function Add (): ReactElement {
   return (
     <>
       <Head>
-        <title>Inventory App</title>
-        <meta name='description' content='Sign in to flynar website' />
+        <title>Add Product | Inventory App</title>
+        <meta name='description' content='Add Product Inventory App' />
       </Head>
       <div className='py-4 px-6 md:py-6 md:px-12 container mx-auto'>
         <form

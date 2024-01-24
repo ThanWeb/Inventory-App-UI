@@ -134,7 +134,7 @@ export default function Home (): ReactElement {
     <>
       <Head>
         <title>Inventory App</title>
-        <meta name='description' content='Sign in to flynar website' />
+        <meta name='description' content='Inventory App' />
       </Head>
       <div className='flex flex-col py-4 px-6 md:py-6 md:px-12'>
         <div className='container mx-auto flex flex-col items-center gap-y-6'>
