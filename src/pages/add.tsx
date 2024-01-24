@@ -1,23 +1,64 @@
-import { type ReactElement, useState } from 'react'
+import { type ReactElement, useState, useEffect } from 'react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { useDispatch, useSelector } from 'react-redux'
 import { HiMiniPlusCircle, HiMiniMinusCircle, HiCheckCircle } from 'react-icons/hi2'
 import DefaultLayout from '@/layouts/default'
 import ProductInput from '@/components/ProductInput'
+import Message from '@/components/Message'
+import { setLoadingTrueActionCreator, setLoadingFalseActionCreator } from '@/store/isLoading/action'
+import { asyncAddMultipleProduct, asyncGetProducts } from '@/store/products/action'
+import { type IStateMessage, setMessageActionCreator } from '@/store/message/action'
+import { type RootState } from '@/store'
 import type IProduct from '@/types/product'
+import { type IStateUser, setUserActionCreator } from '@/store/user/action'
+import api from '@/utils/api'
 
 export default function Add (): ReactElement {
-  const product: IProduct = {
-    name: '',
-    capitalPrice: 0,
-    sellPrice: 0,
-    stock: 0,
-    unit: ''
+  const router = useRouter()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    void init()
+  }, [])
+
+  const message: IStateMessage | null = useSelector((state: RootState) => state.message)
+  const [productInputs, setProductInputs] = useState<IProduct[]>([
+    {
+      name: '',
+      capitalPrice: 0,
+      sellPrice: 0,
+      stock: 0,
+      unit: ''
+    }
+  ])
+
+  const init = async (): Promise<void> => {
+    dispatch(setLoadingTrueActionCreator())
+    const response: { error: boolean, message: string, user: IStateUser } = await api.verifyToken()
+
+    if (response.error) {
+      dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
+
+      setTimeout(() => {
+        void router.push('/sign-in')
+      }, 3000)
+    } else {
+      dispatch(setUserActionCreator(response.user))
+      await dispatch(asyncGetProducts())
+    }
+
+    dispatch(setLoadingFalseActionCreator())
   }
 
-  const [productInputs, setProductInputs] = useState<IProduct[]>([product])
-
   const addFields = (): void => {
-    setProductInputs([...productInputs, product])
+    setProductInputs([...productInputs, {
+      name: '',
+      capitalPrice: 0,
+      sellPrice: 0,
+      stock: 0,
+      unit: ''
+    }])
   }
 
   const removeLastField = (): void => {
@@ -35,7 +76,6 @@ export default function Add (): ReactElement {
       const newProductInputs = [...productInputs]
 
       if (attr === 'name' || attr === 'unit') {
-        // eslint-disable-next-line no-useless-escape
         newProductInputs[index][attr] = value
       } else if (attr === 'capitalPrice' || attr === 'sellPrice' || attr === 'stock') {
         newProductInputs[index][attr] = parseInt(value)
@@ -47,7 +87,33 @@ export default function Add (): ReactElement {
 
   const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
-    console.log('submit')
+    dispatch(setLoadingTrueActionCreator())
+
+    const names = productInputs.map((product) => { return product.name.toLowerCase() })
+    const duplicates = names.filter((value, index) => names.indexOf(value) !== index)
+
+    if (duplicates.length > 0) {
+      dispatch(setMessageActionCreator({ error: true, text: 'Nama Produk Duplikat' }))
+      dispatch(setLoadingFalseActionCreator())
+      return
+    }
+
+    const response = await dispatch(asyncAddMultipleProduct({ products: productInputs }))
+
+    if (!response.error) {
+      setProductInputs([{
+        name: '',
+        capitalPrice: 0,
+        sellPrice: 0,
+        stock: 0,
+        unit: ''
+      }])
+
+      void router.push('/')
+    }
+
+    dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
+    dispatch(setLoadingFalseActionCreator())
   }
 
   return (
@@ -67,9 +133,10 @@ export default function Add (): ReactElement {
               <button
                 type='button'
                 onClick={addFields}
-                className='flex gap-x-2 items-center bg-green-600 text-white px-3 py-2 w-full md:w-fit'
+                className={`flex gap-x-2 items-center ${productInputs.length >= 10 ? 'bg-slate-500' : 'bg-green-600'} text-white px-3 py-2 w-full md:w-fit`}
+                disabled={productInputs.length >= 10}
               >
-                <HiMiniPlusCircle className='w-6 h-6 text-green-200' />
+                <HiMiniPlusCircle className='w-6 h-6 text-white' />
                 <span className='whitespace-nowrap'>Tambah Kolom</span>
               </button>
               <button
@@ -78,14 +145,14 @@ export default function Add (): ReactElement {
                 className={`flex gap-x-2 items-center ${productInputs.length <= 1 ? 'bg-slate-500' : 'bg-amber-600'} text-white px-3 py-2 w-full md:w-fit`}
                 disabled={productInputs.length <= 1}
               >
-                <HiMiniMinusCircle className='w-6 h-6 text-green-200' />
+                <HiMiniMinusCircle className='w-6 h-6 text-white' />
                 <span className='whitespace-nowrap'>Kurangi Kolom</span>
               </button>
               <button
                 type='submit'
                 className='flex gap-x-2 items-center bg-sky-600 text-white px-3 py-2 w-full md:w-fit'
               >
-                <HiCheckCircle className='w-6 h-6 text-green-200' />
+                <HiCheckCircle className='w-6 h-6 text-white' />
                 <span className='whitespace-nowrap'>Simpan</span>
               </button>
             </div>
@@ -118,6 +185,7 @@ export default function Add (): ReactElement {
           </div>
         </form>
       </div>
+      <Message message={message} />
     </>
   )
 }
