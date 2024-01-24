@@ -16,7 +16,7 @@ interface IProps {
 
 const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [itemsShowedOption, setItemsShowedOption] = useState([15, 25, 50, 100])
+  const [itemsShowedOption, setItemsShowedOption] = useState([5, 15, 25, 50, 100])
   const [splitedItems, setSplitedItems] = useState<IProduct[][]>([[]])
   const [paginationItem, setPaginationItem] = useState(itemsShowedOption[0])
   const [activePagination, setActivePagination] = useState(0)
@@ -114,7 +114,7 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
                                 prop === 'unit'
                               ) {
                                 return <td key={index} className='px-3 py-2 border capitalize'>
-                                  <span>{item[prop]}</span>
+                                  <span className='whitespace-nowrap'>{item[prop]}</span>
                                 </td>
                               }
 

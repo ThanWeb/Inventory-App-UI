@@ -84,6 +84,21 @@ const api = (() => {
     }
   }
 
+  const addMultipleProduct = async ({ products }: { products: IProduct[] }): Promise<any> => {
+    try {
+      const response = await axios.post(`${BASE_URL}product/multiple`, { products }, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      })
+
+      return response.data
+    } catch (error: any) {
+      return showError(error)
+    }
+  }
+
   const getProducts = async (): Promise<any> => {
     try {
       const response = await axios.get(`${BASE_URL}product`, {
@@ -134,6 +149,7 @@ const api = (() => {
     verifyToken,
     logout,
     addProduct,
+    addMultipleProduct,
     getProducts,
     updateProduct,
     deleteProduct

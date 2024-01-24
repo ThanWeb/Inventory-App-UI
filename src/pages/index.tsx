@@ -144,11 +144,11 @@ export default function Home (): ReactElement {
               onClick={() => { showProductModalForAction('add', null, 0) }}
               className='flex gap-x-2 items-center bg-green-600 text-white px-3 py-2 w-fit'
             >
-              <HiMiniPlusCircle className='w-6 h-6 text-green-200' />
+              <HiMiniPlusCircle className='w-6 h-6 text-white' />
               <span className='whitespace-nowrap'>Tambah Produk</span>
             </button>
             <Link href='/add' className='flex gap-x-2 items-center bg-green-600 text-white px-3 py-2 w-fit'>
-              <HiSquaresPlus className='w-6 h-6 text-green-200' />
+              <HiSquaresPlus className='w-6 h-6 text-white' />
               <span className='whitespace-nowrap'>Tambah Beberapa Produk</span>
             </Link>
             <input
