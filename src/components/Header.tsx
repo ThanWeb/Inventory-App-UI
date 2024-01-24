@@ -35,7 +35,7 @@ const Header = ({ handleLogout, user }: IHederProps): ReactElement => {
   }
 
   return (
-    <header className={`${inter.className} w-screen sticky top-0 left-0 flex shadow-md z-20 bg-white`}>
+    <header className={`${inter.className} w-full sticky top-0 left-0 flex shadow-md z-20 bg-white`}>
       <div className='container flex justify-between items-center px-6 md:px-8 py-3 mx-auto'>
         <nav>
           <button type='button' className='flex' onClick={() => { setIsNavShowed(true) }}>
@@ -48,7 +48,10 @@ const Header = ({ handleLogout, user }: IHederProps): ReactElement => {
           <div id='navbar' className={`${isNavShowed ? '' : 'hide'} z-30 fixed top-0 w-1/2 md:w-4/12 lg:w-3/12 h-screen bg-white transition-all duration-200 py-6 px-4`}>
             <ul className='flex flex-col gap-y-3'>
               <li className='border-b border-b-sky-500 pb-3 text-center'>
-                <Link href='/add'>Tambah Produk</Link>
+                <Link href='/' onClick={() => { setIsNavShowed(false) }}>Beranda</Link>
+              </li>
+              <li className='border-b border-b-sky-500 pb-3 text-center'>
+                <Link href='/add' onClick={() => { setIsNavShowed(false) }}>Tambah Produk</Link>
               </li>
             </ul>
           </div>
