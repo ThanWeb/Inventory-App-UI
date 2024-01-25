@@ -1,7 +1,6 @@
 import { type ReactElement, useEffect, useState } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { useSelector, useDispatch } from 'react-redux'
 import { HiMiniPlusCircle, HiSquaresPlus } from 'react-icons/hi2'
 import DefaultLayout from '@/layouts/default'
@@ -9,17 +8,16 @@ import Message from '@/components/Message'
 import PaginationTable from '@/components/PaginationTable'
 import ProductInputModal from '@/components/ProductInputModal'
 import type { RootState } from '@/store/index'
-import { type IStateUser, setUserActionCreator } from '@/store/user/action'
+import { type IStateUser } from '@/store/user/action'
 import { asyncGetProducts, asyncAddProduct, asyncEditProduct, asyncDeleteProduct } from '@/store/products/action'
 import { setLoadingTrueActionCreator, setLoadingFalseActionCreator } from '@/store/isLoading/action'
 import { type IStateMessage, setMessageActionCreator } from '@/store/message/action'
 import type IProduct from '@/types/product'
-import api from '@/utils/api'
 
 export default function Home (): ReactElement {
-  const router = useRouter()
   const dispatch = useDispatch()
 
+  const user: IStateUser | null = useSelector((state: RootState) => state.user)
   const products: IProduct[] | never[] = useSelector((state: RootState) => state.products)
   const message: IStateMessage | null = useSelector((state: RootState) => state.message)
 
@@ -35,26 +33,10 @@ export default function Home (): ReactElement {
   const [unit, setUnit] = useState('')
 
   useEffect(() => {
-    void init()
-  }, [])
-
-  const init = async (): Promise<void> => {
-    dispatch(setLoadingTrueActionCreator())
-    const response: { error: boolean, message: string, user: IStateUser } = await api.verifyToken()
-
-    if (response.error) {
-      dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
-
-      setTimeout(() => {
-        void router.push('/sign-in')
-      }, 3000)
-    } else {
-      dispatch(setUserActionCreator(response.user))
-      await dispatch(asyncGetProducts())
+    if (user !== null) {
+      void dispatch(asyncGetProducts())
     }
-
-    dispatch(setLoadingFalseActionCreator())
-  }
+  }, [user])
 
   const showProductModalForAction = (action: string, product: IProduct | null, selectedId: number): void => {
     setIsProductModalShowed(true)

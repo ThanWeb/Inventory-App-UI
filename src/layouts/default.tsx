@@ -7,8 +7,9 @@ import Header from '@/components/Header'
 import Loading from '@/components/Loading'
 import { type RootState } from '@/store'
 import { unsetMessageActionCreator, type IStateMessage, setMessageActionCreator } from '@/store/message/action'
-import { type IStateUser, asyncUnsetAuthUser } from '@/store/user/action'
+import { type IStateUser, asyncUnsetAuthUser, setUserActionCreator } from '@/store/user/action'
 import { setLoadingFalseActionCreator, setLoadingTrueActionCreator } from '@/store/isLoading/action'
+import api from '@/utils/api'
 
 interface IDefaultLayoutProps {
   children: React.ReactNode
@@ -25,12 +26,33 @@ const DefaultLayout = ({ children }: IDefaultLayoutProps): ReactElement => {
   const isLoading: boolean = useSelector((state: RootState) => state.isLoading)
 
   useEffect(() => {
+    void init()
+  }, [])
+
+  useEffect(() => {
     if (message !== null) {
       setTimeout(() => {
         dispatch(unsetMessageActionCreator())
       }, 2000)
     }
   }, [message])
+
+  const init = async (): Promise<void> => {
+    dispatch(setLoadingTrueActionCreator())
+    const response: { error: boolean, message: string, user: IStateUser } = await api.verifyToken()
+
+    if (response.error) {
+      dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
+
+      setTimeout(() => {
+        void router.push('/sign-in')
+      }, 3000)
+    } else {
+      dispatch(setUserActionCreator(response.user))
+    }
+
+    dispatch(setLoadingFalseActionCreator())
+  }
 
   const handleLogout = async (): Promise<void> => {
     dispatch(setLoadingTrueActionCreator())

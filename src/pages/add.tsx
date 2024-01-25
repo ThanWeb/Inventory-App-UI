@@ -1,4 +1,4 @@
-import { type ReactElement, useState, useEffect } from 'react'
+import { type ReactElement, useState } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,20 +7,14 @@ import DefaultLayout from '@/layouts/default'
 import ProductInput from '@/components/ProductInput'
 import Message from '@/components/Message'
 import { setLoadingTrueActionCreator, setLoadingFalseActionCreator } from '@/store/isLoading/action'
-import { asyncAddMultipleProduct, asyncGetProducts } from '@/store/products/action'
+import { asyncAddMultipleProduct } from '@/store/products/action'
 import { type IStateMessage, setMessageActionCreator } from '@/store/message/action'
 import { type RootState } from '@/store'
 import type IProduct from '@/types/product'
-import { type IStateUser, setUserActionCreator } from '@/store/user/action'
-import api from '@/utils/api'
 
 export default function Add (): ReactElement {
   const router = useRouter()
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    void init()
-  }, [])
 
   const message: IStateMessage | null = useSelector((state: RootState) => state.message)
   const [productInputs, setProductInputs] = useState<IProduct[]>([
@@ -32,24 +26,6 @@ export default function Add (): ReactElement {
       unit: ''
     }
   ])
-
-  const init = async (): Promise<void> => {
-    dispatch(setLoadingTrueActionCreator())
-    const response: { error: boolean, message: string, user: IStateUser } = await api.verifyToken()
-
-    if (response.error) {
-      dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
-
-      setTimeout(() => {
-        void router.push('/sign-in')
-      }, 3000)
-    } else {
-      dispatch(setUserActionCreator(response.user))
-      await dispatch(asyncGetProducts())
-    }
-
-    dispatch(setLoadingFalseActionCreator())
-  }
 
   const addFields = (): void => {
     setProductInputs([...productInputs, {
