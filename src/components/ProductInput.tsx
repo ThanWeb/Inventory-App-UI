@@ -2,7 +2,7 @@
 
 import { type ReactElement } from 'react'
 
-interface IProductInputModal {
+interface IProductInput {
   index: number
   isDynamic: boolean
   name: string
@@ -20,7 +20,7 @@ interface IProductInputModal {
 }
 
 interface IProps {
-  props: IProductInputModal
+  props: IProductInput
 }
 
 const ProductInput = ({ props }: IProps): ReactElement => {

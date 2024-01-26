@@ -53,6 +53,9 @@ const Header = ({ handleLogout, user }: IHederProps): ReactElement => {
               <li className='border-b border-b-sky-500 pb-3 text-center'>
                 <Link href='/add' onClick={() => { setIsNavShowed(false) }}>Tambah Produk</Link>
               </li>
+              <li className='border-b border-b-sky-500 pb-3 text-center'>
+                <Link href='/cart' onClick={() => { setIsNavShowed(false) }}>Keranjang</Link>
+              </li>
             </ul>
           </div>
         </nav>
