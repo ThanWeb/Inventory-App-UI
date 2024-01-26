@@ -15,12 +15,19 @@ interface IProps {
 }
 
 const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [itemsShowedOption, setItemsShowedOption] = useState([5, 15, 25, 50, 100])
+  const itemsShowedOption = [5, 15, 25, 50, 100]
   const [splitedItems, setSplitedItems] = useState<IProduct[][]>([[]])
   const [paginationItem, setPaginationItem] = useState(itemsShowedOption[0])
   const [activePagination, setActivePagination] = useState(0)
   const [propsItem, setPropsItem] = useState<string[]>([])
+
+  useEffect(() => {
+    const localPaginationItem = localStorage.getItem('paginationItem')
+
+    if (localPaginationItem !== null) {
+      setPaginationItem(parseInt(localPaginationItem))
+    }
+  }, [])
 
   useEffect(() => {
     splitItemsIntoPaginationAndGetItemNames()
@@ -63,6 +70,7 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
 
   const changePaginationItem = (event: ChangeEvent<HTMLSelectElement>): void => {
     setPaginationItem(parseInt(event.target.value))
+    localStorage.setItem('paginationItem', event.target.value)
   }
 
   return (
