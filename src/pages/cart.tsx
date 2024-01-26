@@ -84,14 +84,14 @@ export default function Add (): ReactElement {
         >
           <div className='flex flex-col justify-start md:flex-row md:justify-between md:items-center gap-4'>
             <h1 className='text-xl font-semibold text-left drop-shadow'>Keranjang</h1>
-            <div className='grid grid-cols-2 gap-2 md:flex md:justify-end md:gap-4 md:flex-wrap'>
+            <div className='grid grid-cols-2 gap-2 md:flex md:justify-end md:gap-4 md:flex-wrap whitespace-nowrap'>
               <button
                 type='button'
                 onClick={addFields}
                 className='flex gap-x-2 items-center bg-green-600 text-white px-3 py-2 w-full md:w-fit'
               >
                 <HiMiniPlusCircle className='w-6 h-6 text-white' />
-                <span className='whitespace-nowrap'>Tambah Kolom</span>
+                <span>Tambah Kolom</span>
               </button>
               <button
                 type='button'
@@ -100,14 +100,14 @@ export default function Add (): ReactElement {
                 disabled={cartInput.length <= 1}
               >
                 <HiMiniMinusCircle className='w-6 h-6 text-white' />
-                <span className='whitespace-nowrap'>Kurangi Kolom</span>
+                <span>Kurangi Kolom</span>
               </button>
               <button
                 type='submit'
                 className='flex gap-x-2 items-center bg-sky-600 text-white px-3 py-2 w-full md:w-fit'
               >
                 <HiCheckCircle className='w-6 h-6 text-white' />
-                <span className='whitespace-nowrap'>Simpan</span>
+                <span>Simpan</span>
               </button>
             </div>
           </div>

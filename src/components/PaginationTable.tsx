@@ -7,6 +7,8 @@ import type IProduct from '@/types/product'
 interface IPaginationTable {
   searchQuery: string
   showProductModalForAction: (action: string, product: IProduct | null, id: number) => void
+  sortOption: string[]
+  setSortBy: (param: string) => void
 }
 
 interface IProps {
@@ -78,9 +80,23 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
       { rawItems.length <= 0
         ? <p>Tidak ada data yang bisa ditampilkan{ props.searchQuery !== '' ? ', silahkan ubah kata kunci.' : '.'}</p>
         : <div className='flex flex-col gap-y-3'>
-          <div>
-            <div className='flex justify-end gap-x-2'>
-              <label className='font-semibold'>Baris per tabel</label>
+          <div className='flex flex-col md:flex-row gap-y-3 md:gap-x-4 justify-end'>
+            <div className='flex justify-end gap-x-2 border py-1 px-2 rounded'>
+              <label className='font-semibold mr-auto md:m-0'>Urutkan</label>
+              <select
+                name='sort'
+                id='sort'
+                onChange={(e: ChangeEvent<HTMLSelectElement>) => { props.setSortBy(e.target.value) }}
+              >
+                {
+                  props.sortOption.map((option) =>
+                    <option key={option}>{option}</option>
+                  )
+                }
+              </select>
+            </div>
+            <div className='flex justify-end gap-x-2 border py-1 px-2 rounded'>
+              <label className='font-semibold mr-auto md:m-0'>Baris per tabel</label>
               <select value={paginationItem} onChange={(e) => { changePaginationItem(e) }} required>
                 {
                   itemsShowedOption.map((item, index) =>
@@ -93,16 +109,16 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
           <div className='w-full overflow-x-auto'>
             {
               splitedItems.map((items: IProduct[], parentIndex: number) =>
-                <table key={parentIndex} className={`${parentIndex !== activePagination ? 'hidden' : ''} text-center min-w-full`}>
+                <table key={parentIndex} className={`${parentIndex !== activePagination ? 'hidden' : ''} text-center min-w-full whitespace-nowrap`}>
                   <tbody>
                     <tr>
                       <th className='px-3 py-2 border'>No</th>
-                      {propsItem.map((header, index) => <th key={index} className='px-3 py-2 border whitespace-nowrap'>{translateProductProps(header)}</th>)}
+                      {propsItem.map((header, index) => <th key={index} className='px-3 py-2 border'>{translateProductProps(header)}</th>)}
                       <th className='px-3 py-2 border'>Aksi</th>
                     </tr>
                     {
                       items.map((item: IProduct, childIndex: number) =>
-                        <tr key={childIndex}>
+                        <tr key={childIndex} className='odd:bg-gray-100'>
                           <td className='px-3 py-2 border'>
                             <span>{(paginationItem * parentIndex) + (childIndex + 1)}</span>
                           </td>
@@ -110,7 +126,7 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
                             propsItem.map((prop, index) => {
                               if (prop === 'createdAt' || prop === 'updatedAt') {
                                 return (
-                                  <td key={index} className='px-3 py-2 border whitespace-nowrap'>
+                                  <td key={index} className='px-3 py-2 border'>
                                     <span>{new Date(`${item[prop]}`).toLocaleString()}</span>
                                   </td>
                                 )
@@ -122,7 +138,7 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
                                 prop === 'unit'
                               ) {
                                 return <td key={index} className='px-3 py-2 border capitalize'>
-                                  <span className='whitespace-nowrap'>{item[prop]}</span>
+                                  <span>{item[prop]}</span>
                                 </td>
                               }
 
@@ -163,7 +179,7 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
                     }
                     <tr>
                       <th className='px-3 py-2 border'>No</th>
-                      {propsItem.map((header, index) => <th key={index} className='px-3 py-2 border whitespace-nowrap'>{translateProductProps(header)}</th>)}
+                      {propsItem.map((header, index) => <th key={index} className='px-3 py-2 border'>{translateProductProps(header)}</th>)}
                       <th className='px-3 py-2 border'>Aksi</th>
                     </tr>
                   </tbody>
@@ -176,11 +192,11 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
             <span className='mx-auto'>Menampilkan {activePagination + 1} dari {splitedItems.length} halaman</span>
           </div>
           <div className='flex justify-center gap-x-2'>
-            {activePagination - 2 >= 0 && <button type='button' className='w-8 h-8 bg-sky-700 text-white' onClick={() => { changePagination(2 * -1) }}>..</button>}
-            {activePagination !== 0 && <button type='button' className='w-8 h-8 bg-sky-700 text-white' onClick={() => { changePagination(-1) }}>{activePagination}</button>}
-            <button type='button' className='w-8 h-8 bg-amber-700 text-white'>{activePagination + 1}</button>
-            {activePagination !== splitedItems.length - 1 && <button type='button' className='w-8 h-8 bg-sky-700 text-white' onClick={() => { changePagination(1) }}>{activePagination + 2}</button>}
-            {activePagination + 2 < splitedItems.length && <button type='button' className='w-8 h-8 bg-sky-700 text-white' onClick={() => { changePagination(2) }}>..</button>}
+            {activePagination - 2 >= 0 && <button type='button' className='w-8 h-8 bg-white text-black border-solid border-2 shadow' onClick={() => { changePagination(2 * -1) }}>..</button>}
+            {activePagination !== 0 && <button type='button' className='w-8 h-8 bg-white text-black border-solid border-2 shadow' onClick={() => { changePagination(-1) }}>{activePagination}</button>}
+            <button type='button' className='w-8 h-8 bg-sky-700 text-white border-solid border-2'>{activePagination + 1}</button>
+            {activePagination !== splitedItems.length - 1 && <button type='button' className='w-8 h-8 bg-white text-black border-solid border-2 shadow' onClick={() => { changePagination(1) }}>{activePagination + 2}</button>}
+            {activePagination + 2 < splitedItems.length && <button type='button' className='w-8 h-8 bg-white text-black border-solid border-2 shadow' onClick={() => { changePagination(2) }}>..</button>}
           </div>
         </div>
       }

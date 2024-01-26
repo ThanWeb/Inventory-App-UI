@@ -17,10 +17,12 @@ import type IProduct from '@/types/product'
 export default function Home (): ReactElement {
   const dispatch = useDispatch()
 
+  const sortOption = ['A - Z', 'Z - A', 'Diperbarui (ASC)', 'Diperbarui (DESC)']
   const user: IStateUser | null = useSelector((state: RootState) => state.user)
   const products: IProduct[] | never[] = useSelector((state: RootState) => state.products)
   const message: IStateMessage | null = useSelector((state: RootState) => state.message)
 
+  const [sortBy, setSortBy] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
   const [isProductModalShowed, setIsProductModalShowed] = useState(false)
   const [selectedAction, setSelectedAction] = useState('')
@@ -112,6 +114,25 @@ export default function Home (): ReactElement {
     return false
   }
 
+  const sortProduct = (products: IProduct[]): IProduct[] => {
+    if (products.length > 0) {
+      switch (sortBy) {
+      case sortOption[0]:
+        return [...products].sort((a, b) => { if (a.name < b.name) { return -1 } return 1 })
+      case sortOption[1]:
+        return [...products].sort((a, b) => { if (a.name > b.name) { return -1 } return 1 })
+      case sortOption[2]:
+        return [...products].sort((a, b) => { if (a.updatedAt !== undefined && b.updatedAt !== undefined && a.updatedAt > b.updatedAt) { return -1 } return 1 })
+      case sortOption[3]:
+        return [...products].sort((a, b) => { if (a.updatedAt !== undefined && b.updatedAt !== undefined && a.updatedAt < b.updatedAt) { return -1 } return 1 })
+      default:
+        return [...products]
+      }
+    } else {
+      return []
+    }
+  }
+
   return (
     <>
       <Head>
@@ -119,19 +140,19 @@ export default function Home (): ReactElement {
         <meta name='description' content='Inventory App' />
       </Head>
       <div className='flex flex-col py-4 px-6 md:py-6 md:px-12'>
-        <div className='container mx-auto flex flex-col items-center gap-y-6'>
-          <div className='w-full flex items-start justify-start gap-4 flex-wrap'>
+        <div className='container mx-auto flex flex-col items-center gap-y-3'>
+          <div className='w-full flex items-start justify-start gap-3 flex-wrap whitespace-nowrap'>
             <button
               type='button'
               onClick={() => { showProductModalForAction('add', null, 0) }}
               className='flex gap-x-2 items-center bg-green-600 text-white px-3 py-2 w-fit'
             >
               <HiMiniPlusCircle className='w-6 h-6 text-white' />
-              <span className='whitespace-nowrap'>Tambah Produk</span>
+              <span>Tambah Produk</span>
             </button>
             <Link href='/add' className='flex gap-x-2 items-center bg-green-600 text-white px-3 py-2 w-fit'>
               <HiSquaresPlus className='w-6 h-6 text-white' />
-              <span className='whitespace-nowrap'>Tambah Beberapa Produk</span>
+              <span>Tambah Beberapa Produk</span>
             </Link>
             <input
               type='text'
@@ -143,10 +164,12 @@ export default function Home (): ReactElement {
             />
           </div>
           <PaginationTable
-            rawItems={products.filter((product) => { return product.name.toLowerCase().includes(searchQuery.toLowerCase()) })}
+            rawItems={sortProduct(products.filter((product) => { return product.name.toLowerCase().includes(searchQuery.toLowerCase()) }))}
             props={{
               searchQuery,
-              showProductModalForAction
+              showProductModalForAction,
+              sortOption,
+              setSortBy
             }}
           />
         </div>
