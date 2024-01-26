@@ -18,6 +18,30 @@ interface IProps {
 const CartInput = ({ props }: IProps): ReactElement => {
   const [isSearch, setIsSearch] = useState(false)
 
+  const findMax = (products: IProduct[], name: string): number => {
+    if (products.length > 0 && name !== '') {
+      const result = products.filter(product => product.name === name)
+
+      if (result.length > 0) {
+        return result[0].stock
+      }
+    }
+
+    return 0
+  }
+
+  const isTotalDisabled = (products: IProduct[], name: string): boolean => {
+    if (products.length > 0 && name !== '') {
+      const result = products.filter(product => product.name === name)
+
+      if (result.length > 0) {
+        return result[0].stock <= 0
+      }
+    }
+
+    return false
+  }
+
   return (
     <>
       <div className='flex flex-col gap-y-2 relative'>
@@ -32,6 +56,7 @@ const CartInput = ({ props }: IProps): ReactElement => {
             setIsSearch(true)
           }}
           placeholder='Pensil 2B'
+          autoComplete='off'
           required
         >
         </input>
@@ -44,13 +69,16 @@ const CartInput = ({ props }: IProps): ReactElement => {
                   <li
                     key={product.name}
                     value={product.name}
-                    className='border border-slate-200 hover:border-amber-600 w-full p-2'
+                    className='border border-slate-200 hover:border-amber-600 w-full p-2 flex justify-between items-center'
                     onClick={() => {
                       props.handleFieldChange(props.index, 'name', product.name.replace(/[^\w\s\']|_/g, ''))
                       setIsSearch(false)
                     }}
                   >
-                    {product.name}
+                    <span>{product.name}</span>
+                    {
+                      product.stock <= 0 && <span className='text-red-500 text-sm'>kosong</span>
+                    }
                   </li>
                 )
             }
@@ -66,6 +94,9 @@ const CartInput = ({ props }: IProps): ReactElement => {
           className='border border-slate-200 hover:border-amber-600 w-full p-2'
           onChange={(event) => { props.handleFieldChange(props.index, 'total', event.target.value.replace(/\D/g, '')) }}
           placeholder='10'
+          disabled={isTotalDisabled(props.products, props.name)}
+          min={0}
+          max={findMax(props.products, props.name)}
           required/>
       </div>
     </>
