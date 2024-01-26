@@ -1,4 +1,4 @@
-import { useEffect, type ReactElement } from 'react'
+import { useEffect, type ReactElement, useState } from 'react'
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import { useRouter } from 'next/router'
@@ -24,6 +24,9 @@ const DefaultLayout = ({ children }: IDefaultLayoutProps): ReactElement => {
   const user: IStateUser | null = useSelector((state: RootState) => state.user)
   const message: IStateMessage | null = useSelector((state: RootState) => state.message)
   const isLoading: boolean = useSelector((state: RootState) => state.isLoading)
+
+  const [isNavShowed, setIsNavShowed] = useState(false)
+  const [isDropdownShowed, setIsDropdownShowed] = useState(false)
 
   useEffect(() => {
     void init()
@@ -79,8 +82,14 @@ const DefaultLayout = ({ children }: IDefaultLayoutProps): ReactElement => {
         <link rel='apple-touch-icon' href='/favicon/apple-touch-icon.png' type='image/png' sizes='any' />
       </Head>
       <Header
-        user={user}
-        handleLogout={handleLogout}
+        props={{
+          user,
+          handleLogout,
+          isNavShowed,
+          setIsNavShowed,
+          isDropdownShowed,
+          setIsDropdownShowed
+        }}
       />
       <main className={inter.className}>
         {children}

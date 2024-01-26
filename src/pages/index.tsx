@@ -139,6 +139,7 @@ export default function Home (): ReactElement {
               value={searchQuery}
               onChange={(event) => { setSearchQuery(event.target.value) }}
               className='border border-sky-700 hover:border-amber-600 w-full py-3 px-2'
+              autoComplete='off'
             />
           </div>
           <PaginationTable

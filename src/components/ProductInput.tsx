@@ -38,6 +38,7 @@ const ProductInput = ({ props }: IProps): ReactElement => {
             : (event) => { props.setName(event.target.value.replace(/[^\w\s\']|_/g, '')) }}
           placeholder='Pensil 2B'
           disabled={props.selectedAction === 'detail' || props.selectedAction === 'delete'}
+          autoComplete='off'
           required
         />
       </div>
@@ -53,6 +54,7 @@ const ProductInput = ({ props }: IProps): ReactElement => {
             : (event) => { props.setCapitalPrice(parseInt(event.target.value.replace(/\D/g, ''))) }}
           placeholder='10000'
           disabled={props.selectedAction === 'detail' || props.selectedAction === 'delete'}
+          min={0}
           required/>
       </div>
       <div className='flex flex-col gap-y-2'>
@@ -67,6 +69,7 @@ const ProductInput = ({ props }: IProps): ReactElement => {
             : (event) => { props.setSellPrice(parseInt(event.target.value.replace(/\D/g, ''))) }}
           placeholder='20000'
           disabled={props.selectedAction === 'detail' || props.selectedAction === 'delete'}
+          min={0}
           required/>
       </div>
       <div className='flex flex-col gap-y-2'>
@@ -81,6 +84,7 @@ const ProductInput = ({ props }: IProps): ReactElement => {
             : (event) => { props.setStock(parseInt(event.target.value.replace(/\D/g, ''))) }}
           placeholder='10'
           disabled={props.selectedAction === 'detail' || props.selectedAction === 'delete'}
+          min={0}
           required/>
       </div>
       <div className='flex flex-col gap-y-2'>
@@ -95,6 +99,7 @@ const ProductInput = ({ props }: IProps): ReactElement => {
             : (event) => { props.setUnit(event.target.value.replace(/[^\w\s\']|_/g, '')) }}
           placeholder='Pcs'
           disabled={props.selectedAction === 'detail' || props.selectedAction === 'delete'}
+          autoComplete='off'
           required/>
       </div>
     </>
