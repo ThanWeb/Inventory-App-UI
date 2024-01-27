@@ -39,7 +39,7 @@ export default function SignUp (): ReactElement {
     }
 
     dispatch(setLoadingTrueActionCreator())
-    const { error, message } = await api.register({ username, password })
+    const { error, message } = await api.registerAdmin({ username, password })
     dispatch(setMessageActionCreator({ error, text: message }))
 
     if (!error) {

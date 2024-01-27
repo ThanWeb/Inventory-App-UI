@@ -29,18 +29,22 @@ const api = (() => {
     return localStorage.getItem('accessToken')
   }
 
-  const register = async ({ username, password }: { username: string, password: string }): Promise<any> => {
+  const deleteAccessToken = (): void => {
+    localStorage.removeItem('accessToken')
+  }
+
+  const registerAdmin = async ({ username, password }: { username: string, password: string }): Promise<any> => {
     try {
-      const response = await axios.post(`${BASE_URL}register`, { username, password })
+      const response = await axios.post(`${BASE_URL}admin/register`, { username, password })
       return response.data
     } catch (error: any) {
       return showError(error)
     }
   }
 
-  const login = async ({ username, password }: { username: string, password: string }): Promise<any> => {
+  const loginAdmin = async ({ username, password }: { username: string, password: string }): Promise<any> => {
     try {
-      const response = await axios.post(`${BASE_URL}login`, { username, password })
+      const response = await axios.post(`${BASE_URL}admin/login`, { username, password })
       return response.data
     } catch (error: any) {
       return showError(error)
@@ -144,8 +148,9 @@ const api = (() => {
   return {
     putAccessToken,
     getAccessToken,
-    register,
-    login,
+    deleteAccessToken,
+    registerAdmin,
+    loginAdmin,
     verifyToken,
     logout,
     addProduct,

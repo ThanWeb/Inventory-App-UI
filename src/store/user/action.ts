@@ -32,14 +32,18 @@ const unsetUserActionCreator = (): { type: string, payload: { user: IStateUser |
 const asyncSetUser = ({ username, password }: { username: string, password: string }): any => {
   return async (dispatch: Dispatch) => {
     try {
-      const response: { error: boolean, accessToken: string, message: string, user: IStateUser } = await api.login({ username, password })
+      const response: { error: boolean, accessToken: string, message: string, user: IStateUser } = await api.loginAdmin({ username, password })
 
-      if (!response.error) {
+      if (response.error) {
+        return response
+      } else {
         api.putAccessToken(`${response.accessToken}`)
         dispatch(setUserActionCreator(response.user))
+        return {
+          error: false,
+          message: 'Selamat Datang'
+        }
       }
-
-      return response
     } catch (error: any) {
       console.error(error.message)
     }
@@ -58,7 +62,7 @@ const asyncUnsetAuthUser = (): any => {
 
       return response
     } catch (error: any) {
-      console.log(error.message)
+      console.error(error.message)
     }
   }
 }

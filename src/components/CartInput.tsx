@@ -60,7 +60,7 @@ const CartInput = ({ props }: IProps): ReactElement => {
           required
         >
         </input>
-        <div className={`${!isSearch || props.name === '' ? 'hidden' : 'block'} absolute max-h-32 top-20 left-0 overflow-y-auto bg-white z-10 w-full shadow-md`}>
+        <div className={`${!isSearch || props.name === '' ? 'hidden' : 'block'} absolute max-h-32 top-20 left-0 overflow-y-auto bg-white z-10 w-full shadow-lg`}>
           <ul className='m-2'>
             {
               props.products.length <= 0
