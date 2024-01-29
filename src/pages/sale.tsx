@@ -50,14 +50,14 @@ export default function Sale (): ReactElement {
   const handleFieldChange = (index: number, attr: string, value: string): void => {
     const attributes = ['name', 'total']
 
-    if (value === '') return
-
     if (attributes.includes(attr)) {
       const newCartInput = [...cartInput]
 
       if (attr === 'name') {
         newCartInput[index][attr] = value
       } else if (attr === 'total') {
+        if (value === '') return
+
         newCartInput[index][attr] = parseInt(value)
       }
 

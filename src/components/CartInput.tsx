@@ -30,18 +30,6 @@ const CartInput = ({ props }: IProps): ReactElement => {
     return 0
   }
 
-  const isTotalDisabled = (products: IProduct[], name: string): boolean => {
-    if (products.length > 0 && name !== '') {
-      const result = products.filter(product => product.name === name)
-
-      if (result.length > 0) {
-        return result[0].stock <= 0
-      }
-    }
-
-    return false
-  }
-
   return (
     <>
       <div className='flex flex-col gap-y-2 relative'>
@@ -94,10 +82,13 @@ const CartInput = ({ props }: IProps): ReactElement => {
           className='border border-slate-200 hover:border-amber-600 w-full p-2'
           onChange={(event) => { props.handleFieldChange(props.index, 'total', event.target.value.replace(/\D/g, '')) }}
           placeholder='10'
-          disabled={isTotalDisabled(props.products, props.name)}
+          disabled={findMax(props.products, props.name) <= 0}
           min={0}
           max={findMax(props.products, props.name)}
           required/>
+      </div>
+      <div className='flex justify-end'>
+        <p className='text-center text-sm text-white italic rounded-lg bg-blue-500 w-fit px-4'>Tersedia {findMax(props.products, props.name)}</p>
       </div>
     </>
   )

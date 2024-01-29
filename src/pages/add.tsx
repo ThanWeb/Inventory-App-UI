@@ -48,14 +48,14 @@ export default function Add (): ReactElement {
   const handleFieldChange = (index: number, attr: string, value: string): void => {
     const attributes = ['name', 'capitalPrice', 'sellPrice', 'stock', 'unit']
 
-    if (value === '') return
-
     if (attributes.includes(attr)) {
       const newProductInputs = [...productInputs]
 
       if (attr === 'name' || attr === 'unit') {
         newProductInputs[index][attr] = value
       } else if (attr === 'capitalPrice' || attr === 'sellPrice' || attr === 'stock') {
+        if (value === '') return
+
         newProductInputs[index][attr] = parseInt(value)
       }
 
