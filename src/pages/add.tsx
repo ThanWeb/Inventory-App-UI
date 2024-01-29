@@ -48,6 +48,8 @@ export default function Add (): ReactElement {
   const handleFieldChange = (index: number, attr: string, value: string): void => {
     const attributes = ['name', 'capitalPrice', 'sellPrice', 'stock', 'unit']
 
+    if (value === '') return
+
     if (attributes.includes(attr)) {
       const newProductInputs = [...productInputs]
 
