@@ -1,5 +1,6 @@
 import axios from 'axios'
 import type IProduct from '../types/product'
+import type ICart from '../types/cart'
 
 const showError = (error: any): any => {
   if (axios.isAxiosError(error)) {
@@ -145,6 +146,20 @@ const api = (() => {
     }
   }
 
+  const addTransactionAdmin = async ({ total, cart }: { total: number, cart: ICart[] }): Promise<any> => {
+    try {
+      const response = await axios.post(`${BASE_URL}admin/transaction`, { total, cart }, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`
+        }
+      })
+
+      return response.data
+    } catch (error: any) {
+      return showError(error)
+    }
+  }
+
   return {
     putAccessToken,
     getAccessToken,
@@ -157,7 +172,8 @@ const api = (() => {
     addMultipleProduct,
     getProducts,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    addTransactionAdmin
   }
 })()
 
