@@ -59,7 +59,7 @@ const Header = ({ props }: IProps): ReactElement => {
                 <Link href='/add' onClick={() => { props.setIsNavShowed(false) }}>Tambah Produk</Link>
               </li>
               <li className='border-b border-b-sky-500 pb-3 text-center'>
-                <Link href='/cart' onClick={() => { props.setIsNavShowed(false) }}>Keranjang</Link>
+                <Link href='/sale' onClick={() => { props.setIsNavShowed(false) }}>Penjualan</Link>
               </li>
             </ul>
           </div>

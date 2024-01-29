@@ -12,7 +12,7 @@ import { asyncGetProducts } from '@/store/products/action'
 import { type IStateUser } from '@/store/user/action'
 import type IProduct from '@/types/product'
 
-export default function Add (): ReactElement {
+export default function Sale (): ReactElement {
   const dispatch = useDispatch()
 
   const user: IStateUser | null = useSelector((state: RootState) => state.user)
@@ -74,8 +74,8 @@ export default function Add (): ReactElement {
   return (
     <>
       <Head>
-        <title>Cart | Inventory App</title>
-        <meta name='description' content='Add Product Inventory App' />
+        <title>Sale | Inventory App</title>
+        <meta name='description' content='Sale Product Inventory App' />
       </Head>
       <div className='py-4 px-6 md:py-6 md:px-12 container mx-auto'>
         <form
@@ -83,7 +83,7 @@ export default function Add (): ReactElement {
           className='flex flex-col gap-y-8'
         >
           <div className='flex flex-col justify-start md:flex-row md:justify-between md:items-center gap-4'>
-            <h1 className='text-xl font-semibold text-left drop-shadow'>Keranjang</h1>
+            <h1 className='text-xl font-semibold text-left drop-shadow'>Penjualan</h1>
             <div className='grid grid-cols-2 gap-2 md:flex md:justify-end md:gap-4 md:flex-wrap whitespace-nowrap'>
               <button
                 type='button'
@@ -135,7 +135,7 @@ export default function Add (): ReactElement {
   )
 }
 
-Add.getLayout = function getLayout (page: ReactElement) {
+Sale.getLayout = function getLayout (page: ReactElement) {
   return (
     <DefaultLayout>
       {page}
