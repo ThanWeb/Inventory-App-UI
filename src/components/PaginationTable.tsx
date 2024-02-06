@@ -8,7 +8,8 @@ interface IPaginationTable {
   searchQuery: string
   showProductModalForAction: (action: string, product: IProduct | null, id: number) => void
   sortOption: string[]
-  setSortBy: (param: string) => void
+  sortBy: string
+  changeSortBy: (param: string) => void
 }
 
 interface IProps {
@@ -24,11 +25,7 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
   const [propsItem, setPropsItem] = useState<string[]>([])
 
   useEffect(() => {
-    const localPaginationItem = localStorage.getItem('paginationItem')
-
-    if (localPaginationItem !== null) {
-      setPaginationItem(parseInt(localPaginationItem))
-    }
+    fetchDataFromLocalStorage()
   }, [])
 
   useEffect(() => {
@@ -38,6 +35,14 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
   useEffect(() => {
     paginationItemChangeHandler()
   }, [paginationItem])
+
+  const fetchDataFromLocalStorage = (): void => {
+    const localPaginationItem = localStorage.getItem('paginationItem')
+
+    if (localPaginationItem !== null) {
+      setPaginationItem(parseInt(localPaginationItem))
+    }
+  }
 
   const splitItemsIntoPaginationAndGetItemNames = (): void => {
     if (rawItems.length > 0) {
@@ -70,9 +75,9 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
     setActivePagination(result)
   }
 
-  const changePaginationItem = (event: ChangeEvent<HTMLSelectElement>): void => {
-    setPaginationItem(parseInt(event.target.value))
-    localStorage.setItem('paginationItem', event.target.value)
+  const changePaginationItem = (value: string): void => {
+    setPaginationItem(parseInt(value))
+    localStorage.setItem('paginationItem', value)
   }
 
   return (
@@ -84,20 +89,27 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
             <div className='flex justify-end gap-x-2 border py-1 px-2 rounded'>
               <label className='font-semibold mr-auto md:m-0'>Urutkan</label>
               <select
+                value={props.sortBy}
                 name='sort'
                 id='sort'
-                onChange={(e: ChangeEvent<HTMLSelectElement>) => { props.setSortBy(e.target.value) }}
+                onChange={(e: ChangeEvent<HTMLSelectElement>) => { props.changeSortBy(e.target.value) }}
+                className='pr-2 text-right md:text-left'
               >
                 {
                   props.sortOption.map((option) =>
-                    <option key={option}>{option}</option>
+                    <option key={option} value={option}>{option}</option>
                   )
                 }
               </select>
             </div>
             <div className='flex justify-end gap-x-2 border py-1 px-2 rounded'>
               <label className='font-semibold mr-auto md:m-0'>Baris per tabel</label>
-              <select value={paginationItem} onChange={(e) => { changePaginationItem(e) }} required>
+              <select
+                value={paginationItem}
+                onChange={(e: ChangeEvent<HTMLSelectElement>) => { changePaginationItem(e.target.value) }}
+                required
+                className='pr-2 text-right md:text-left'
+              >
                 {
                   itemsShowedOption.map((item, index) =>
                     <option key={index} value={item}>{item}</option>

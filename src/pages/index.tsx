@@ -35,10 +35,22 @@ export default function Home (): ReactElement {
   const [unit, setUnit] = useState('')
 
   useEffect(() => {
+    fetchDataFromLocalStorage()
+  }, [])
+
+  useEffect(() => {
     if (user !== null) {
       void dispatch(asyncGetProducts())
     }
   }, [user])
+
+  const fetchDataFromLocalStorage = (): void => {
+    const localSortBy = localStorage.getItem('sortBy')
+
+    if (localSortBy !== null) {
+      setSortBy(localSortBy)
+    }
+  }
 
   const showProductModalForAction = (action: string, product: IProduct | null, selectedId: number): void => {
     setIsProductModalShowed(true)
@@ -114,6 +126,11 @@ export default function Home (): ReactElement {
     return false
   }
 
+  const changeSortBy = (value: string): void => {
+    setSortBy(value)
+    localStorage.setItem('sortBy', value)
+  }
+
   const sortProduct = (products: IProduct[]): IProduct[] => {
     if (products.length > 0) {
       switch (sortBy) {
@@ -169,7 +186,8 @@ export default function Home (): ReactElement {
               searchQuery,
               showProductModalForAction,
               sortOption,
-              setSortBy
+              sortBy,
+              changeSortBy
             }}
           />
         </div>
