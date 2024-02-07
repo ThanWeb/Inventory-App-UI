@@ -1,4 +1,4 @@
-import { type ReactElement, useEffect, useState } from 'react'
+import { type ReactElement, useEffect, useState, type ChangeEvent } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useSelector, useDispatch } from 'react-redux'
@@ -33,6 +33,8 @@ export default function Home (): ReactElement {
   const [sellPrice, setSellPrice] = useState(0)
   const [stock, setStock] = useState(0)
   const [unit, setUnit] = useState('')
+  const [image, setImage] = useState<Blob | MediaSource | null>(null)
+  const [imageUrl, setImageUrl] = useState('')
 
   useEffect(() => {
     fetchDataFromLocalStorage()
@@ -62,6 +64,7 @@ export default function Home (): ReactElement {
       setSellPrice(0)
       setStock(0)
       setUnit('')
+      setImage(null)
     } else {
       if (product !== null) {
         setId(selectedId)
@@ -83,7 +86,7 @@ export default function Home (): ReactElement {
     try {
       switch (action) {
       case 'add':
-        response = await dispatch(asyncAddProduct({ name, capitalPrice, sellPrice, stock, unit }))
+        response = await dispatch(asyncAddProduct({ product: { name, capitalPrice, sellPrice, stock, unit }, image }))
         dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
         break
       case 'edit':
@@ -150,6 +153,35 @@ export default function Home (): ReactElement {
     }
   }
 
+  const onImageChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    if (event.target.files !== null) {
+      if (event.target.files[0] !== undefined) {
+        const type = `${event.target.files[0].type}`
+
+        if (type === 'image/png' || type === 'image/jpg' || type === 'image/jpeg' || type === 'image/webp') {
+          if (event.target.files[0].size > 3e6) {
+            dispatch(setMessageActionCreator({ error: true, text: 'Upload Gambar Maksimal 3 mb' }))
+          } else {
+            setImageUrl(URL.createObjectURL(event.target.files[0]))
+            setImage(event.target.files[0])
+          }
+        } else {
+          dispatch(setMessageActionCreator({ error: true, text: 'Ekstensi Gambar tidak didukung' }))
+        }
+      }
+    }
+  }
+
+  const deleteImage = (): void => {
+    const imageInput: HTMLInputElement | null = document.querySelector('input#selectedImage')
+
+    if (imageInput !== null) {
+      imageInput.value = ''
+    }
+
+    setImageUrl('')
+  }
+
   return (
     <>
       <Head>
@@ -204,6 +236,9 @@ export default function Home (): ReactElement {
               setStock,
               unit,
               setUnit,
+              imageUrl,
+              deleteImage,
+              onImageChange,
               selectedAction,
               isThereAnyChange: checkIsThereAnyChange(),
               setIsProductModalShowed,
