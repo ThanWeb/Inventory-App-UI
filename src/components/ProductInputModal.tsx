@@ -1,5 +1,6 @@
 import { type ChangeEvent, type ReactElement } from 'react'
 import ProductInput from '@/components/ProductInput'
+import ProductInputModalCancelButton from '@/components/ProductInputModalCancelButton'
 import Image from 'next/image'
 
 interface IProductInputModal {
@@ -31,22 +32,62 @@ const ProductInputModal = ({ props }: IProps): ReactElement => {
     switch (action) {
     case 'add':
       return <div className='flex gap-x-4 justify-end mt-auto'>
-        <button type='button' onClick={() => { props.setIsProductModalShowed(false) }}>Batal</button>
-        <button type='submit' className='rounded-lg bg-green-600 py-2 px-6 text-white'>Tambah</button>
+        <ProductInputModalCancelButton
+          props={{
+            text: 'Batal',
+            deleteImage: props.deleteImage,
+            setIsProductModalShowed: props.setIsProductModalShowed
+          }}
+        />
+        <button
+          type='submit'
+          className='rounded-lg bg-green-600 py-2 px-6 text-white'
+        >
+          Tambah
+        </button>
       </div>
     case 'edit':
       return <div className='flex gap-x-4 justify-end mt-auto'>
-        <button type='button' onClick={() => { props.setIsProductModalShowed(false) }}>Batal</button>
-        <button type='submit' disabled={!props.isThereAnyChange} className='rounded-lg bg-amber-500 py-2 px-6 text-white'>Ubah</button>
+        <ProductInputModalCancelButton
+          props={{
+            text: 'Batal',
+            deleteImage: props.deleteImage,
+            setIsProductModalShowed: props.setIsProductModalShowed
+          }}
+        />
+        <button
+          type='submit'
+          disabled={!props.isThereAnyChange}
+          className='rounded-lg bg-amber-500 py-2 px-6 text-white'
+        >
+          Ubah
+        </button>
       </div>
     case 'delete':
       return <div className='flex gap-x-4 justify-end mt-auto'>
-        <button type='button' onClick={() => { props.setIsProductModalShowed(false) }}>Batal</button>
-        <button type='submit' className='rounded-lg bg-red-600 py-2 px-6 text-white'>Hapus</button>
+        <ProductInputModalCancelButton
+          props={{
+            text: 'Batal',
+            deleteImage: props.deleteImage,
+            setIsProductModalShowed: props.setIsProductModalShowed
+          }}
+        />
+        <button
+          type='submit'
+          className='rounded-lg bg-red-600 py-2 px-6 text-white'
+        >
+          Hapus
+        </button>
       </div>
     default:
       return <div className='flex gap-x-4 justify-end mt-auto'>
-        <button type='button' onClick={() => { props.setIsProductModalShowed(false) }} className='rounded-lg bg-sky-600 py-2 px-6 text-white'>Tutup</button>
+        <ProductInputModalCancelButton
+          props={{
+            text: 'Tutup',
+            deleteImage: props.deleteImage,
+            setIsProductModalShowed: props.setIsProductModalShowed
+          }}
+        />
       </div>
     }
   }
@@ -55,7 +96,10 @@ const ProductInputModal = ({ props }: IProps): ReactElement => {
     <div className='w-full h-full relative top-0 left-0 flex'>
       <div
         className='absolute z-20 bg-slate-300 opacity-70 w-screen h-screen top-0 left-0'
-        onClick={() => { props.setIsProductModalShowed(false) }}
+        onClick={() => {
+          props.setIsProductModalShowed(false)
+          props.deleteImage()
+        }}
       />
       <div className='z-30 bg-white w-4/5 lg:w-3/5 h-3/4 m-auto shadow-xl px-6'>
         <form
@@ -80,18 +124,25 @@ const ProductInputModal = ({ props }: IProps): ReactElement => {
               handleFieldChange: () => {}
             }}
           />
-          <div className='flex flex-col mt-3'>
-            <input
-              type='file'
-              id='selectedImage'
-              className='hidden'
-              accept='image/*'
-              onChange={(event) => { props.onImageChange(event) }}
-            />
-            <div className='flex gap-x-2'>
-              <button type='button' onClick={() => { document?.getElementById('selectedImage')?.click() }} className='w-1/2 bg-blue-500 text-white text-sm p-1 cursor-pointer'>Cari Gambar</button>
-              {
-                props.imageUrl !== '' &&
+          <div className='flex flex-col gap-y-2 my-2'>
+            <div className='flex flex-col'>
+              <input
+                type='file'
+                id='selectedImage'
+                className='hidden'
+                accept='image/*'
+                onChange={(event) => { props.onImageChange(event) }}
+              />
+              <div className='flex gap-x-2'>
+                <button
+                  type='button'
+                  onClick={() => { document?.getElementById('selectedImage')?.click() }}
+                  className='w-1/2 bg-blue-500 text-white text-sm p-1 cursor-pointer'
+                >
+                  Cari Gambar
+                </button>
+                {
+                  props.imageUrl !== '' &&
                 <button
                   type='button'
                   value='Cari Gambar'
@@ -99,15 +150,21 @@ const ProductInputModal = ({ props }: IProps): ReactElement => {
                   className='w-1/2 bg-red-500 text-white text-sm p-1 cursor-pointer'>
                   Hapus Gambar
                 </button>
+                }
+              </div>
+            </div>
+            <div className='w-full flex flex-col gap-y-2 justify-center items-center bg-gray-100'>
+              {
+                props.imageUrl !== '' && <>
+                  <Image
+                    src={props.imageUrl}
+                    className='w-full h-fit object-contain'
+                    alt='preview'
+                    width={24}
+                    height={24} />
+                </>
               }
             </div>
-          </div>
-          <div className='w-full flex flex-col gap-y-2 mt-1 mb-2 justify-center items-center bg-gray-100'>
-            {
-              props.imageUrl !== '' && <>
-                <Image src={props.imageUrl} className='w-32 h-32 object-contain' alt='preview' width={24} height={24} />
-              </>
-            }
           </div>
           { renderButtons(props.selectedAction) }
         </form>
