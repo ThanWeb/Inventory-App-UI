@@ -6,11 +6,13 @@ import DefaultLayout from '@/layouts/default'
 import Message from '@/components/Message'
 import CartInput from '@/components/CartInput'
 import { type RootState } from '@/store'
-import { type IStateMessage } from '@/store/message/action'
+import { setMessageActionCreator, type IStateMessage } from '@/store/message/action'
 import { setLoadingTrueActionCreator, setLoadingFalseActionCreator } from '@/store/isLoading/action'
 import { asyncGetProducts } from '@/store/products/action'
 import { type IStateUser } from '@/store/user/action'
 import type IProduct from '@/types/product'
+import type ICart from '@/types/cart'
+import api from '@/utils/api'
 
 export default function Sale (): ReactElement {
   const dispatch = useDispatch()
@@ -19,7 +21,7 @@ export default function Sale (): ReactElement {
   const message: IStateMessage | null = useSelector((state: RootState) => state.message)
   const products: IProduct[] | never[] = useSelector((state: RootState) => state.products)
 
-  const [cartInput, setCartInput] = useState<Array<{ name: string, total: number }>>([
+  const [cartInput, setCartInput] = useState<ICart[]>([
     {
       name: '',
       total: 0
@@ -69,7 +71,9 @@ export default function Sale (): ReactElement {
     event.preventDefault()
     dispatch(setLoadingTrueActionCreator())
 
-    console.log(cartInput)
+    const response = await api.addTransactionAdmin({ cart: cartInput })
+
+    dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
     dispatch(setLoadingFalseActionCreator())
   }
 

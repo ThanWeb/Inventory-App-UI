@@ -146,9 +146,9 @@ const api = (() => {
     }
   }
 
-  const addTransactionAdmin = async ({ total, cart }: { total: number, cart: ICart[] }): Promise<any> => {
+  const addTransactionAdmin = async ({ cart }: { cart: ICart[] }): Promise<any> => {
     try {
-      const response = await axios.post(`${BASE_URL}admin/transaction`, { total, cart }, {
+      const response = await axios.post(`${BASE_URL}admin/transaction`, { cart }, {
         headers: {
           Authorization: `Bearer ${getAccessToken()}`
         }
