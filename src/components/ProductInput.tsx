@@ -55,7 +55,8 @@ const ProductInput = ({ props }: IProps): ReactElement => {
           placeholder='10000'
           disabled={props.selectedAction === 'detail' || props.selectedAction === 'delete'}
           min={0}
-          required/>
+          required
+        />
       </div>
       <div className='flex flex-col gap-y-2'>
         <label htmlFor='sellPrice'>Harga Jual</label>
@@ -70,7 +71,8 @@ const ProductInput = ({ props }: IProps): ReactElement => {
           placeholder='20000'
           disabled={props.selectedAction === 'detail' || props.selectedAction === 'delete'}
           min={0}
-          required/>
+          required
+        />
       </div>
       <div className='flex flex-col gap-y-2'>
         <label htmlFor='stock'>Stok</label>
@@ -85,7 +87,8 @@ const ProductInput = ({ props }: IProps): ReactElement => {
           placeholder='10'
           disabled={props.selectedAction === 'detail' || props.selectedAction === 'delete'}
           min={0}
-          required/>
+          required
+        />
       </div>
       <div className='flex flex-col gap-y-2'>
         <label htmlFor='unit'>Satuan</label>
@@ -100,7 +103,8 @@ const ProductInput = ({ props }: IProps): ReactElement => {
           placeholder='Pcs'
           disabled={props.selectedAction === 'detail' || props.selectedAction === 'delete'}
           autoComplete='off'
-          required/>
+          required
+        />
       </div>
     </>
   )

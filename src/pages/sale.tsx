@@ -81,7 +81,10 @@ export default function Sale (): ReactElement {
     <>
       <Head>
         <title>Sale | Inventory App</title>
-        <meta name='description' content='Sale Product Inventory App' />
+        <meta
+          name='description'
+          content='Sale Product Inventory App'
+        />
       </Head>
       <div className='py-4 px-6 md:py-6 md:px-12 container mx-auto'>
         <form
@@ -120,7 +123,10 @@ export default function Sale (): ReactElement {
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
             {
               cartInput.map((input, index) =>
-                <div key={index} className='flex flex-col gap-y-3 shadow-md p-6'>
+                <div
+                  key={index}
+                  className='flex flex-col gap-y-3 shadow-md p-6'
+                >
                   <CartInput
                     props={{
                       index,

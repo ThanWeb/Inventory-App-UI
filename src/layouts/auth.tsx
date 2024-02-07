@@ -29,9 +29,21 @@ const AuthPageLayout = ({ children }: IAuthPageLayoutProps): ReactElement => {
   return (
     <>
       <Head>
-        <meta name='viewport' content='initial-scale=1.0, width=device-width' />
-        <link rel='icon' href='/favicon/favicon.ico' sizes='any' />
-        <link rel='apple-touch-icon' href='/favicon/apple-touch-icon.png' type='image/png' sizes='any' />
+        <meta
+          name='viewport'
+          content='initial-scale=1.0, width=device-width'
+        />
+        <link
+          rel='icon'
+          href='/favicon/favicon.ico'
+          sizes='any'
+        />
+        <link
+          rel='apple-touch-icon'
+          href='/favicon/apple-touch-icon.png'
+          type='image/png'
+          sizes='any'
+        />
       </Head>
       <main className={`${inter.className} w-screen h-screen flex`}>
         {children}

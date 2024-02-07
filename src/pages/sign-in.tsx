@@ -58,7 +58,10 @@ export default function SignIn (): ReactElement {
     <>
       <Head>
         <title>Sign In | Inventory App</title>
-        <meta name='description' content='Sign In'/>
+        <meta
+          name='description'
+          content='Sign In'
+        />
       </Head>
       <div className='m-auto p-8 w-full md:w-8/12 lg:w-4/12 flex flex-col gap-y-6'>
         <h1 className='text-2xl font-bold'>Masuk</h1>
@@ -78,7 +81,14 @@ export default function SignIn (): ReactElement {
         </div>
         <div className='flex justify-end gap-x-1'>
           <p>Belum Punya Akun?</p>
-          <p>Silahkan <Link href='/sign-up' className='font-bold text-blue-950'>Daftar</Link></p>
+          <p>
+            Silahkan <Link
+              href='/sign-up'
+              className='font-bold text-blue-950'
+            >
+              Daftar
+            </Link>
+          </p>
         </div>
         <Message message={message} />
       </div>

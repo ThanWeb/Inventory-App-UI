@@ -97,7 +97,12 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
               >
                 {
                   props.sortOption.map((option) =>
-                    <option key={option} value={option}>{option}</option>
+                    <option
+                      key={option}
+                      value={option}
+                    >
+                      {option}
+                    </option>
                   )
                 }
               </select>
@@ -112,7 +117,12 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
               >
                 {
                   itemsShowedOption.map((item, index) =>
-                    <option key={index} value={item}>{item}</option>
+                    <option
+                      key={index}
+                      value={item}
+                    >
+                      {item}
+                    </option>
                   )
                 }
               </select>
@@ -121,16 +131,27 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
           <div className='w-full overflow-x-auto'>
             {
               splitedItems.map((items: IProduct[], parentIndex: number) =>
-                <table key={parentIndex} className={`${parentIndex !== activePagination ? 'hidden' : ''} text-center min-w-full whitespace-nowrap`}>
+                <table
+                  key={parentIndex}
+                  className={`${parentIndex !== activePagination ? 'hidden' : ''} text-center min-w-full whitespace-nowrap`}>
                   <tbody>
                     <tr>
                       <th className='px-3 py-2 border'>No</th>
-                      {propsItem.map((header, index) => <th key={index} className='px-3 py-2 border'>{translateProductProps(header)}</th>)}
+                      {propsItem.map((header, index) =>
+                        <th
+                          key={index}
+                          className='px-3 py-2 border'
+                        >
+                          {translateProductProps(header)}
+                        </th>)}
                       <th className='px-3 py-2 border'>Aksi</th>
                     </tr>
                     {
                       items.map((item: IProduct, childIndex: number) =>
-                        <tr key={childIndex} className='odd:bg-gray-100'>
+                        <tr
+                          key={childIndex}
+                          className='odd:bg-gray-100'
+                        >
                           <td className='px-3 py-2 border'>
                             <span>{(paginationItem * parentIndex) + (childIndex + 1)}</span>
                           </td>
@@ -138,7 +159,10 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
                             propsItem.map((prop, index) => {
                               if (prop === 'createdAt' || prop === 'updatedAt') {
                                 return (
-                                  <td key={index} className='px-3 py-2 border'>
+                                  <td
+                                    key={index}
+                                    className='px-3 py-2 border'
+                                  >
                                     <span>{new Date(`${item[prop]}`).toLocaleString()}</span>
                                   </td>
                                 )
@@ -149,12 +173,18 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
                                 prop === 'stock' ||
                                 prop === 'unit'
                               ) {
-                                return <td key={index} className='px-3 py-2 border capitalize'>
+                                return <td
+                                  key={index}
+                                  className='px-3 py-2 border capitalize'
+                                >
                                   <span>{item[prop]}</span>
                                 </td>
                               }
 
-                              return <td key={index} className='px-3 py-2 border'>
+                              return <td
+                                key={index}
+                                className='px-3 py-2 border'
+                              >
                                 <span></span>
                               </td>
                             }
@@ -191,7 +221,12 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
                     }
                     <tr>
                       <th className='px-3 py-2 border'>No</th>
-                      {propsItem.map((header, index) => <th key={index} className='px-3 py-2 border'>{translateProductProps(header)}</th>)}
+                      {propsItem.map((header, index) => <th
+                        key={index}
+                        className='px-3 py-2 border'
+                      >
+                        {translateProductProps(header)}
+                      </th>)}
                       <th className='px-3 py-2 border'>Aksi</th>
                     </tr>
                   </tbody>
@@ -204,11 +239,57 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
             <span className='mx-auto'>Menampilkan {activePagination + 1} dari {splitedItems.length} halaman</span>
           </div>
           <div className='flex justify-center gap-x-2'>
-            {activePagination - 2 >= 0 && <button type='button' className='w-8 h-8 bg-white text-black border-solid border-2 shadow' onClick={() => { changePagination(2 * -1) }}>..</button>}
-            {activePagination !== 0 && <button type='button' className='w-8 h-8 bg-white text-black border-solid border-2 shadow' onClick={() => { changePagination(-1) }}>{activePagination}</button>}
-            <button type='button' className='w-8 h-8 bg-sky-700 text-white border-solid border-2'>{activePagination + 1}</button>
-            {activePagination !== splitedItems.length - 1 && <button type='button' className='w-8 h-8 bg-white text-black border-solid border-2 shadow' onClick={() => { changePagination(1) }}>{activePagination + 2}</button>}
-            {activePagination + 2 < splitedItems.length && <button type='button' className='w-8 h-8 bg-white text-black border-solid border-2 shadow' onClick={() => { changePagination(2) }}>..</button>}
+            {/* Prev Button -2 */}
+            {
+              activePagination - 2 >= 0 && <button
+                type='button'
+                className='w-8 h-8 bg-white text-black border-solid border-2 shadow'
+                onClick={() => { changePagination(2 * -1) }}
+              >
+                ..
+              </button>
+            }
+
+            {/* Prev Button -1 */}
+            {
+              activePagination !== 0 && <button
+                type='button'
+                className='w-8 h-8 bg-white text-black border-solid border-2 shadow'
+                onClick={() => { changePagination(-1) }}
+              >
+                {activePagination}
+              </button>
+            }
+
+            {/* Active Pagination */}
+            <button
+              type='button'
+              className='w-8 h-8 bg-sky-700 text-white border-solid border-2'
+            >
+              {activePagination + 1}
+            </button>
+
+            {/* Next Button +1 */}
+            {
+              activePagination !== splitedItems.length - 1 && <button
+                type='button'
+                className='w-8 h-8 bg-white text-black border-solid border-2 shadow'
+                onClick={() => { changePagination(1) }}
+              >
+                {activePagination + 2}
+              </button>
+            }
+
+            {/* Next Button +2 */}
+            {
+              activePagination + 2 < splitedItems.length && <button
+                type='button'
+                className='w-8 h-8 bg-white text-black border-solid border-2 shadow'
+                onClick={() => { changePagination(2) }}
+              >
+              ..
+              </button>
+            }
           </div>
         </div>
       }

@@ -186,7 +186,10 @@ export default function Home (): ReactElement {
     <>
       <Head>
         <title>Inventory App</title>
-        <meta name='description' content='Inventory App' />
+        <meta
+          name='description'
+          content='Inventory App'
+        />
       </Head>
       <div className='flex flex-col py-4 px-6 md:py-6 md:px-12'>
         <div className='container mx-auto flex flex-col items-center gap-y-3'>
@@ -199,7 +202,10 @@ export default function Home (): ReactElement {
               <HiMiniPlusCircle className='w-6 h-6 text-white' />
               <span>Tambah Produk</span>
             </button>
-            <Link href='/add' className='flex gap-x-2 items-center bg-green-600 text-white px-3 py-2 w-fit'>
+            <Link
+              href='/add'
+              className='flex gap-x-2 items-center bg-green-600 text-white px-3 py-2 w-fit'
+            >
               <HiSquaresPlus className='w-6 h-6 text-white' />
               <span>Tambah Beberapa Produk</span>
             </Link>

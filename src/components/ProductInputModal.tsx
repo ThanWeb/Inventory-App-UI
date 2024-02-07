@@ -142,14 +142,14 @@ const ProductInputModal = ({ props }: IProps): ReactElement => {
                   Cari Gambar
                 </button>
                 {
-                  props.imageUrl !== '' &&
-                <button
-                  type='button'
-                  value='Cari Gambar'
-                  onClick={() => { props.deleteImage() }}
-                  className='w-1/2 bg-red-500 text-white text-sm p-1 cursor-pointer'>
-                  Hapus Gambar
-                </button>
+                  props.imageUrl !== '' && <button
+                    type='button'
+                    value='Cari Gambar'
+                    onClick={() => { props.deleteImage() }}
+                    className='w-1/2 bg-red-500 text-white text-sm p-1 cursor-pointer'
+                  >
+                    Hapus Gambar
+                  </button>
                 }
               </div>
             </div>
@@ -161,7 +161,8 @@ const ProductInputModal = ({ props }: IProps): ReactElement => {
                     className='w-full h-fit object-contain'
                     alt='preview'
                     width={24}
-                    height={24} />
+                    height={24}
+                  />
                 </>
               }
             </div>
