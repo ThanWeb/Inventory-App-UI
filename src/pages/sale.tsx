@@ -1,5 +1,6 @@
 import { useState, type ReactElement, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useRouter } from 'next/router'
 import Head from 'next/head'
 import { HiMiniPlusCircle, HiMiniMinusCircle, HiCheckCircle } from 'react-icons/hi2'
 import DefaultLayout from '@/layouts/default'
@@ -15,6 +16,7 @@ import type ICart from '@/types/cart'
 import api from '@/utils/api'
 
 export default function Sale (): ReactElement {
+  const router = useRouter()
   const dispatch = useDispatch()
 
   const user: IStateUser | null = useSelector((state: RootState) => state.user)
@@ -72,6 +74,12 @@ export default function Sale (): ReactElement {
     dispatch(setLoadingTrueActionCreator())
 
     const response = await api.addTransactionAdmin({ cart: cartInput })
+
+    if (!response.error) {
+      setTimeout(() => {
+        void router.push(`/transaction/${response.transactionId}`)
+      }, 2000)
+    }
 
     dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
     dispatch(setLoadingFalseActionCreator())
