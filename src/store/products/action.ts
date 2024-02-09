@@ -57,10 +57,10 @@ const asyncGetProducts = (): any => {
   }
 }
 
-const asyncAddProduct = ({ name, capitalPrice, sellPrice, stock, unit }: IProduct): any => {
+const asyncAddProduct = ({ product: { name, capitalPrice, sellPrice, stock, unit }, image }: { product: IProduct, image: any }): any => {
   return async (dispatch: Dispatch) => {
     try {
-      const response: { error: boolean, product: IProduct } = await api.addProduct({ name, capitalPrice, sellPrice, stock, unit })
+      const response: { error: boolean, product: IProduct } = await api.addProduct({ product: { name, capitalPrice, sellPrice, stock, unit }, image })
 
       if (!response.error) {
         dispatch(createProductActionCreator(response.product))

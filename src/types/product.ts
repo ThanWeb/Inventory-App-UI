@@ -7,6 +7,7 @@ export default interface IProduct {
   sellPrice: number
   stock: number
   unit: string
+  imageUrl?: string
   isDeleted?: boolean
   createdAt?: string
   updatedAt?: string
