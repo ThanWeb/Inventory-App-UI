@@ -58,7 +58,7 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
 
         setSplitedItems(tempSplitedItems)
         setPropsItem(Object.getOwnPropertyNames(tempSplitedItems[0][0]).filter((item) => {
-          return item !== 'id' && item !== 'isDeleted' && item !== 'createdBy' && item !== 'lastUpdatedBy'
+          return item !== 'id' && item !== 'isDeleted' && item !== 'createdBy' && item !== 'lastUpdatedBy' && item !== 'imageUrl'
         }))
       }
     }

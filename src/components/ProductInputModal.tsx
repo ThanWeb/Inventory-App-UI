@@ -15,7 +15,7 @@ interface IProductInputModal {
   unit: string
   setUnit: (param: string) => void
   imageUrl: string
-  deleteImage: () => void
+  setImageUrl: (param: string) => void
   onImageChange: (event: ChangeEvent<HTMLInputElement>) => void
   selectedAction: string
   isThereAnyChange: boolean
@@ -35,7 +35,6 @@ const ProductInputModal = ({ props }: IProps): ReactElement => {
         <ProductInputModalCancelButton
           props={{
             text: 'Batal',
-            deleteImage: props.deleteImage,
             setIsProductModalShowed: props.setIsProductModalShowed
           }}
         />
@@ -51,7 +50,6 @@ const ProductInputModal = ({ props }: IProps): ReactElement => {
         <ProductInputModalCancelButton
           props={{
             text: 'Batal',
-            deleteImage: props.deleteImage,
             setIsProductModalShowed: props.setIsProductModalShowed
           }}
         />
@@ -68,7 +66,6 @@ const ProductInputModal = ({ props }: IProps): ReactElement => {
         <ProductInputModalCancelButton
           props={{
             text: 'Batal',
-            deleteImage: props.deleteImage,
             setIsProductModalShowed: props.setIsProductModalShowed
           }}
         />
@@ -84,7 +81,6 @@ const ProductInputModal = ({ props }: IProps): ReactElement => {
         <ProductInputModalCancelButton
           props={{
             text: 'Tutup',
-            deleteImage: props.deleteImage,
             setIsProductModalShowed: props.setIsProductModalShowed
           }}
         />
@@ -98,13 +94,12 @@ const ProductInputModal = ({ props }: IProps): ReactElement => {
         className='absolute z-20 bg-slate-300 opacity-70 w-screen h-screen top-0 left-0'
         onClick={() => {
           props.setIsProductModalShowed(false)
-          props.deleteImage()
         }}
       />
       <div className='z-30 bg-white w-4/5 lg:w-3/5 h-3/4 m-auto shadow-xl px-6'>
         <form
           onSubmit={(event: React.FormEvent<HTMLFormElement>) => { void props.productModalSubmitHandler(event, props.selectedAction) }}
-          className='flex flex-col gap-y-3 h-full overflow-y-auto py-6'
+          className='flex flex-col gap-y-3 h-full overflow-y-auto py-6 px-2'
         >
           <ProductInput
             props={{
@@ -126,44 +121,25 @@ const ProductInputModal = ({ props }: IProps): ReactElement => {
           />
           <div className='flex flex-col gap-y-2 my-2'>
             <div className='flex flex-col'>
-              <input
-                type='file'
-                id='selectedImage'
-                className='hidden'
-                accept='image/*'
-                onChange={(event) => { props.onImageChange(event) }}
-              />
-              <div className='flex gap-x-2'>
-                <button
-                  type='button'
-                  onClick={() => { document?.getElementById('selectedImage')?.click() }}
-                  className='w-1/2 bg-blue-500 text-white text-sm p-1 cursor-pointer'
-                >
-                  Cari Gambar
-                </button>
-                {
-                  props.imageUrl !== '' && <button
-                    type='button'
-                    value='Cari Gambar'
-                    onClick={() => { props.deleteImage() }}
-                    className='w-1/2 bg-red-500 text-white text-sm p-1 cursor-pointer'
-                  >
-                    Hapus Gambar
-                  </button>
-                }
-              </div>
-            </div>
-            <div className='w-full flex flex-col gap-y-2 justify-center items-center bg-gray-100'>
               {
-                props.imageUrl !== '' && <>
-                  <Image
-                    src={props.imageUrl}
-                    className='w-full h-fit object-contain'
-                    alt='preview'
-                    width={24}
-                    height={24}
+                props.selectedAction === 'add' || props.selectedAction === 'edit'
+                  ? <input
+                    type='file'
+                    id='productImageInput'
+                    accept='image/*'
+                    onChange={(event) => { props.onImageChange(event) }}
                   />
-                </>
+                  : props.imageUrl === ''
+                    ? <span>No Image</span>
+                    : <div className='w-full flex flex-col gap-y-2 justify-center items-center bg-gray-100'>
+                      <Image
+                        src={`${props.imageUrl}`}
+                        className='w-auto h-auto'
+                        alt='preview'
+                        width={256}
+                        height={256}
+                      />
+                    </div>
               }
             </div>
           </div>

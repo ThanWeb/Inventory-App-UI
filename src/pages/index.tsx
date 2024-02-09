@@ -33,12 +33,23 @@ export default function Home (): ReactElement {
   const [sellPrice, setSellPrice] = useState(0)
   const [stock, setStock] = useState(0)
   const [unit, setUnit] = useState('')
+
   const [image, setImage] = useState<Blob | MediaSource | null>(null)
   const [imageUrl, setImageUrl] = useState('')
 
   useEffect(() => {
     fetchDataFromLocalStorage()
   }, [])
+
+  useEffect(() => {
+    if (image === null) {
+      const productImageInput: HTMLInputElement | null = document?.querySelector('input#productImageInput')
+
+      if (productImageInput !== null) {
+        productImageInput.value = ''
+      }
+    }
+  }, [image])
 
   useEffect(() => {
     if (user !== null) {
@@ -73,6 +84,7 @@ export default function Home (): ReactElement {
         setSellPrice(product.sellPrice)
         setStock(product.stock)
         setUnit(product.unit)
+        setImageUrl(product.imageUrl ?? '')
       }
     }
   }
@@ -172,16 +184,6 @@ export default function Home (): ReactElement {
     }
   }
 
-  const deleteImage = (): void => {
-    const imageInput: HTMLInputElement | null = document.querySelector('input#selectedImage')
-
-    if (imageInput !== null) {
-      imageInput.value = ''
-    }
-
-    setImageUrl('')
-  }
-
   return (
     <>
       <Head>
@@ -243,7 +245,7 @@ export default function Home (): ReactElement {
               unit,
               setUnit,
               imageUrl,
-              deleteImage,
+              setImageUrl,
               onImageChange,
               selectedAction,
               isThereAnyChange: checkIsThereAnyChange(),

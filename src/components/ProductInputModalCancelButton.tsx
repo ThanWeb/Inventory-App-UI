@@ -2,7 +2,6 @@ import { type ReactElement } from 'react'
 
 interface IProductInputModalCancelButton {
   text: string
-  deleteImage: () => void
   setIsProductModalShowed: (param: boolean) => void
 }
 
@@ -14,10 +13,7 @@ const ProductInputModalCancelButton = ({ props }: IProps): ReactElement => {
   return (
     <button
       type='button'
-      onClick={() => {
-        props.setIsProductModalShowed(false)
-        props.deleteImage()
-      }}
+      onClick={() => { props.setIsProductModalShowed(false) }}
     >
       {props.text}
     </button>
