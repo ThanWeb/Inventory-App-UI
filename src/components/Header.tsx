@@ -86,6 +86,14 @@ const Header = ({ props }: IProps): ReactElement => {
                   Penjualan
                 </Link>
               </li>
+              <li className='border-b border-b-sky-500 pb-3 text-center'>
+                <Link
+                  href='/transaction'
+                  onClick={() => { props.setIsNavShowed(false) }}
+                >
+                  Riwayat Penjualan
+                </Link>
+              </li>
             </ul>
           </div>
         </nav>
