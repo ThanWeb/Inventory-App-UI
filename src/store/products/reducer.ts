@@ -1,7 +1,7 @@
 import type IProduct from '@/types/product'
 import { ActionType } from '../products/action'
 
-const productsReducer = (products: IProduct[] | never[] = [], action: any): IProduct[] | any[] => {
+const productsReducer = (products: IProduct[] | never[] = [], action: any): IProduct[] | never[] => {
   switch (action.type) {
   case ActionType.RECEIVE_PRODUCTS:
     return action.payload.products

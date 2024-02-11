@@ -135,7 +135,7 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
                   key={parentIndex}
                   className={`${parentIndex !== activePagination ? 'hidden' : ''} text-center min-w-full whitespace-nowrap`}>
                   <tbody>
-                    <tr>
+                    <tr className='bg-gray-600 text-white'>
                       <th className='px-3 py-2 border'>No</th>
                       {propsItem.map((header, index) =>
                         <th
