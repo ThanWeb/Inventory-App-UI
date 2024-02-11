@@ -185,6 +185,20 @@ const api = (() => {
     }
   }
 
+  const getAllTransctions = async (): Promise<any> => {
+    try {
+      const response = await axios.get(`${BASE_URL}admin/transaction`, {
+        headers: {
+          Authorization: `Bearer ${getAccessToken()}`
+        }
+      })
+
+      return response.data
+    } catch (error: any) {
+      return showError(error)
+    }
+  }
+
   return {
     putAccessToken,
     getAccessToken,
@@ -198,7 +212,8 @@ const api = (() => {
     getProducts,
     updateProduct,
     deleteProduct,
-    addTransactionAdmin
+    addTransactionAdmin,
+    getAllTransctions
   }
 })()
 
