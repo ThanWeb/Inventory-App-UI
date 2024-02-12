@@ -1,4 +1,5 @@
 export default interface ITransaction {
+  id: number
   total: number
   isUnpaid: boolean
   createdAt: string

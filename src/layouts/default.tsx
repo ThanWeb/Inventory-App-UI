@@ -30,7 +30,7 @@ const DefaultLayout = ({ children }: IDefaultLayoutProps): ReactElement => {
 
   useEffect(() => {
     void init()
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     if (message !== null) {
