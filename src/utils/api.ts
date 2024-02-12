@@ -1,6 +1,7 @@
 import axios from 'axios'
 import type IProduct from '../types/product'
 import type ICart from '../types/cart'
+import { type Dayjs } from 'dayjs'
 
 const showError = (error: any): any => {
   if (axios.isAxiosError(error)) {
@@ -185,9 +186,9 @@ const api = (() => {
     }
   }
 
-  const getAllTransactions = async (): Promise<any> => {
+  const getAllTransactions = async (selectedDate: Dayjs): Promise<any> => {
     try {
-      const response = await axios.get(`${BASE_URL}admin/transaction`, {
+      const response = await axios.get(`${BASE_URL}admin/transaction?date=${selectedDate.toISOString()}`, {
         headers: {
           Authorization: `Bearer ${getAccessToken()}`
         }

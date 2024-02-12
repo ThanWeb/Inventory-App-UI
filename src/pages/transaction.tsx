@@ -2,6 +2,8 @@ import { type ReactElement, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Head from 'next/head'
 import { HiShoppingCart } from 'react-icons/hi2'
+import dayjs, { type Dayjs } from 'dayjs'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import DefaultLayout from '@/layouts/default'
 import TransactionModal from '@/components/TransactionModal'
 import formatPrice from '@/utils/formatPrice'
@@ -20,16 +22,19 @@ const Transaction = (): ReactElement => {
 
   const [selectedTransaction, setSelectedTransaction] = useState<ITransaction | null>(null)
   const [isTransactionModalShowed, setIsTransactionModalShowed] = useState(false)
+  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs())
 
   useEffect(() => {
-    if (user !== null) {
-      void dispatch(asyncGetTransactions())
+    void fetchTransactionPerDate()
+  }, [user, selectedDate])
+
+  const fetchTransactionPerDate = async (): Promise<void> => {
+    if (user !== null && selectedDate !== null) {
+      dispatch(setLoadingTrueActionCreator())
+      await dispatch(asyncGetTransactions(selectedDate))
+      dispatch(setLoadingFalseActionCreator())
     }
-  }, [user])
-
-  useEffect(() => {
-    console.log(transactions)
-  }, [transactions])
+  }
 
   const getTransactionDetailAndShowModal = async (index: number): Promise<void> => {
     dispatch(setLoadingTrueActionCreator())
@@ -66,7 +71,14 @@ const Transaction = (): ReactElement => {
         />
       </Head>
       <div className='flex flex-col py-4 px-6 md:py-6 md:px-12'>
-        <div className='container mx-auto flex flex-col items-center gap-y-3 overflow-x-auto'>
+        <div className='container mx-auto flex flex-col items-center gap-y-4 overflow-x-auto'>
+          <div className='w-full flex items-center justify-end py-3'>
+            <DatePicker
+              label='Tanggal Transaksi'
+              value={selectedDate}
+              onChange={(newValue) => { setSelectedDate(newValue) }}
+            />
+          </div>
           <div className='w-full flex items-start justify-start gap-3 flex-wrap whitespace-nowrap'>
             <table className='min-w-full text-center whitespace-nowrap border-collapse'>
               <tbody>

@@ -1,6 +1,7 @@
 import { type Dispatch } from '@reduxjs/toolkit'
 import api from '@/utils/api'
 import type ITransaction from '@/types/transaction'
+import { type Dayjs } from 'dayjs'
 
 const ActionType = {
   RECEIVE_TRANSACTIONS: 'RECEIVE_TRANSACTIONS',
@@ -26,10 +27,10 @@ const receiveTransactionDetailActionCreator = (id: number, transaction: ITransac
   }
 }
 
-const asyncGetTransactions = (): any => {
+const asyncGetTransactions = (selectedDate: Dayjs): any => {
   return async (dispatch: Dispatch) => {
     try {
-      const { transactions }: { transactions: ITransaction[] | never[] } = await api.getAllTransactions()
+      const { transactions }: { transactions: ITransaction[] | never[] } = await api.getAllTransactions(selectedDate)
       dispatch(receiveTransactionsActionCreator(transactions))
     } catch (error: any) {
       console.error(error.message)
