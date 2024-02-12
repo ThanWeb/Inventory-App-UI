@@ -100,7 +100,7 @@ export default function Sale (): ReactElement {
           className='flex flex-col gap-y-8'
         >
           <div className='flex flex-col justify-start md:flex-row md:justify-between md:items-center gap-4'>
-            <h1 className='text-xl font-semibold text-left drop-shadow'>Penjualan</h1>
+            <h1 className='text-xl font-semibold text-left drop-shadow'>Tambah Penjualan</h1>
             <div className='grid grid-cols-2 gap-2 md:flex md:justify-end md:gap-4 md:flex-wrap whitespace-nowrap'>
               <button
                 type='button'

@@ -83,7 +83,7 @@ const Header = ({ props }: IProps): ReactElement => {
                   href='/sale'
                   onClick={() => { props.setIsNavShowed(false) }}
                 >
-                  Penjualan
+                  Tambah Penjualan
                 </Link>
               </li>
               <li className='border-b border-b-sky-500 pb-3 text-center'>
