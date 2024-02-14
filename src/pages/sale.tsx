@@ -77,7 +77,7 @@ export default function Sale (): ReactElement {
 
     if (!response.error) {
       setTimeout(() => {
-        void router.push(`/transaction/${response.transactionId}`)
+        void router.push('/transaction')
       }, 2000)
     }
 

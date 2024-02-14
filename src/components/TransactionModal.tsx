@@ -33,32 +33,42 @@ const TransactionModal = ({ props }: IProps): ReactElement => {
           <div className='flex flex-col gap-y-2'>
             <h2 className='font-medium text-lg'>Keranjang</h2>
             <div className='oveflow-x-auto'>
-              <table className='min-w-full text-center border-collapse'>
-                {
-                  props.selectedTransaction.carts?.map((item, index) =>
-                    <tr key={index} className='flex'>
-                      <td className='text-left w-1/2'>{item.product.name}</td>
-                      <td className='w-1/2'>
-                        <p className='w-full flex gap-x-1 flex-start'>
-                          <div className='flex justify-between gap-x-1 w-full'>
-                            <span>Rp. </span>
-                            <span>{formatPrice(`${item.product.sellPrice}`)}</span>
-                          </div>
-                        </p>
-                      </td>
-                    </tr>
-                  )
-                }
+              <table className='min-w-full text-center border-collapse whitespace-nowrap'>
+                <tbody>
+                  <tr>
+                    <th className='text-left'>Nama Barang</th>
+                    <th>Qty</th>
+                    <th className='text-left'>Harga</th>
+                  </tr>
+                  {
+                    props.selectedTransaction.carts?.map((item, index) =>
+                      <tr key={index}>
+                        <td className='text-left'>{item.product.name}</td>
+                        <td>{item.total}</td>
+                        <td className='flex justify-between'>
+                          <span>Rp. </span>
+                          <span>{formatPrice(`${item.product.sellPrice}`)}</span>
+                        </td>
+                      </tr>
+                    )
+                  }
+                </tbody>
               </table>
             </div>
           </div>
           <div className='border'/>
-          <div className='flex justify-between items-center mt-auto font-bold gap-x-2'>
-            <h2 className='font-medium text-lg w-1/2'>Total Belanja</h2>
-            <div className='flex justify-between gap-x-1 w-1/2'>
-              <span>Rp. </span>
-              <span>{formatPrice(`${props.selectedTransaction.total}`)}</span>
-            </div>
+          <div className='mt-auto font-bold'>
+            <table className='min-w-full text-center border-collapse'>
+              <tbody>
+                <tr>
+                  <th className='text-left'>Total Belanja</th>
+                  <th className='flex justify-between'>
+                    <span>Rp. </span>
+                    <span>{formatPrice(`${props.selectedTransaction.total}`)}</span>
+                  </th>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       }
