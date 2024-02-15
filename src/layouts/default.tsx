@@ -88,6 +88,7 @@ const DefaultLayout = ({ children }: IDefaultLayoutProps): ReactElement => {
           type='image/png'
           sizes='any'
         />
+        <title>Inventory App</title>
       </Head>
       <div className={inter.className}>
         <Loading isLoading={isLoading} />

@@ -44,6 +44,7 @@ const AuthPageLayout = ({ children }: IAuthPageLayoutProps): ReactElement => {
           type='image/png'
           sizes='any'
         />
+        <title>Inventory App</title>
       </Head>
       <main className={`${inter.className} w-screen h-screen flex`}>
         {children}
