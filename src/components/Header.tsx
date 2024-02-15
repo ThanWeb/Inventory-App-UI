@@ -22,7 +22,7 @@ const inter = Inter({ subsets: ['latin'] })
 const Header = ({ props }: IProps): ReactElement => {
   const renderDropdown = (): ReactElement => {
     return (
-      <div className={`${!props.isDropdownShowed ? 'hidden' : 'flex'} absolute -right-4 top-10 bg-white shadow-md flex-col gap-y-3 p-3`}>
+      <div className={`${!props.isDropdownShowed ? 'hidden' : 'flex'} absolute -right-4 top-14 bg-white shadow-md flex-col gap-y-3 p-3`}>
         <div className='flex items-center gap-x-4 justify-start'>
           <span className='flex'>
             <HiOutlineUser className='w-6 h-6 m-auto' />
@@ -45,7 +45,7 @@ const Header = ({ props }: IProps): ReactElement => {
 
   return (
     <header className={`${inter.className} w-full sticky top-0 left-0 flex shadow-md z-20 bg-white`}>
-      <div className='container flex justify-between items-center px-6 md:px-8 py-3 mx-auto'>
+      <div className='container flex justify-between items-center px-6 md:px-8 mx-auto'>
         <nav>
           <button
             type='button'
@@ -102,7 +102,7 @@ const Header = ({ props }: IProps): ReactElement => {
             props.user === null
               ? <Link href='/sign-in'>Masuk</Link>
               : <>
-                <div className='relative lg:hidden'>
+                <div className='relative py-3 lg:hidden'>
                   <button
                     type='button'
                     className='flex'
@@ -115,7 +115,7 @@ const Header = ({ props }: IProps): ReactElement => {
                   }
                 </div>
                 <div
-                  className='relative hidden lg:block'
+                  className='relative py-3 hidden lg:block'
                   onMouseOver={() => { props.setIsDropdownShowed(true) }}
                   onMouseLeave={() => { props.setIsDropdownShowed(false) }}
                 >
