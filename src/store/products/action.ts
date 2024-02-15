@@ -1,4 +1,4 @@
-import type IProduct from '@/types/product'
+import type { IProduct, IProductInput } from '@/types/product'
 import { type Dispatch } from '@reduxjs/toolkit'
 import api from '@/utils/api'
 
@@ -18,7 +18,7 @@ const receiveProductsActionCreator = (products: IProduct[] | never[]): { type: s
   }
 }
 
-const createProductActionCreator = (product: IProduct): { type: string, payload: Record<string, any> } => {
+const createProductActionCreator = (product: IProductInput): { type: string, payload: Record<string, any> } => {
   return {
     type: ActionType.CREATE_PRODUCT,
     payload: {
@@ -27,7 +27,7 @@ const createProductActionCreator = (product: IProduct): { type: string, payload:
   }
 }
 
-const updateProductActionCreator = (id: number, product: IProduct): { type: string, payload: Record<string, any> } => {
+const updateProductActionCreator = (id: number, product: IProductInput): { type: string, payload: Record<string, any> } => {
   return {
     type: ActionType.UPDATE_PRODUCT,
     payload: {
@@ -57,7 +57,7 @@ const asyncGetProducts = (): any => {
   }
 }
 
-const asyncAddProduct = ({ product: { name, capitalPrice, sellPrice, stock, unit }, image }: { product: IProduct, image: any }): any => {
+const asyncAddProduct = ({ product: { name, capitalPrice, sellPrice, stock, unit }, image }: { product: IProductInput, image: any }): any => {
   return async (dispatch: Dispatch) => {
     try {
       const response: { error: boolean, product: IProduct } = await api.addProduct({ product: { name, capitalPrice, sellPrice, stock, unit }, image })
@@ -73,7 +73,7 @@ const asyncAddProduct = ({ product: { name, capitalPrice, sellPrice, stock, unit
   }
 }
 
-const asyncAddMultipleProduct = ({ products }: { products: IProduct[] }): any => {
+const asyncAddMultipleProduct = ({ products }: { products: IProductInput[] }): any => {
   return async (dispatch: Dispatch) => {
     try {
       const response: { error: boolean, product: IProduct } = await api.addMultipleProduct({ products })
@@ -84,7 +84,7 @@ const asyncAddMultipleProduct = ({ products }: { products: IProduct[] }): any =>
   }
 }
 
-const asyncEditProduct = ({ id, product: { name, capitalPrice, sellPrice, stock, unit } }: { id: number, product: IProduct }): any => {
+const asyncEditProduct = ({ id, product: { name, capitalPrice, sellPrice, stock, unit } }: { id: number, product: IProductInput }): any => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await api.updateProduct({ id, product: { name, capitalPrice, sellPrice, stock, unit } })

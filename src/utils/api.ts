@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { IProduct } from '@/types/product'
+import type { IProductInput } from '@/types/product'
 import type ICart from '../types/cart'
 import { type Dayjs } from 'dayjs'
 
@@ -76,7 +76,7 @@ const api = (() => {
     }
   }
 
-  const addProduct = async ({ product: { name, capitalPrice, sellPrice, stock, unit }, image }: { product: IProduct, image: any }): Promise<any> => {
+  const addProduct = async ({ product: { name, capitalPrice, sellPrice, stock, unit }, image }: { product: IProductInput, image: any }): Promise<any> => {
     try {
       let imageUrl = ''
 
@@ -115,7 +115,7 @@ const api = (() => {
     }
   }
 
-  const addMultipleProduct = async ({ products }: { products: IProduct[] }): Promise<any> => {
+  const addMultipleProduct = async ({ products }: { products: IProductInput[] }): Promise<any> => {
     try {
       const response = await axios.post(`${BASE_URL}product/multiple`, { products }, {
         headers: {
@@ -144,7 +144,7 @@ const api = (() => {
     }
   }
 
-  const updateProduct = async ({ id, product: { name, capitalPrice, sellPrice, stock, unit } }: { id: number, product: IProduct }): Promise<any> => {
+  const updateProduct = async ({ id, product: { name, capitalPrice, sellPrice, stock, unit } }: { id: number, product: IProductInput }): Promise<any> => {
     try {
       const response = await axios.put(`${BASE_URL}product`, { id, name, capitalPrice, sellPrice, stock, unit }, {
         headers: {
