@@ -45,11 +45,7 @@ const DefaultLayout = ({ children }: IDefaultLayoutProps): ReactElement => {
     const response: { error: boolean, message: string, user: IStateUser } = await api.verifyToken()
 
     if (response.error) {
-      dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
-
-      setTimeout(() => {
-        void router.push('/sign-in')
-      }, 3000)
+      void router.push('/sign-in')
     } else {
       dispatch(setUserActionCreator(response.user))
     }
@@ -72,6 +68,31 @@ const DefaultLayout = ({ children }: IDefaultLayoutProps): ReactElement => {
     }
 
     dispatch(setLoadingFalseActionCreator())
+  }
+
+  if (user === null) {
+    return <>
+      <Head>
+        <meta
+          name='viewport'
+          content='initial-scale=1.0, width=device-width'
+        />
+        <link
+          rel='icon'
+          href='/favicon/favicon.ico'
+          sizes='any'
+        />
+        <link
+          rel='apple-touch-icon'
+          href='/favicon/apple-touch-icon.png'
+          type='image/png'
+          sizes='any'
+        />
+      </Head>
+      <div className={inter.className}>
+        <Loading isLoading={isLoading} />
+      </div>
+    </>
   }
 
   return (
