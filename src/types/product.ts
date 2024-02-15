@@ -1,4 +1,4 @@
-export default interface IProduct {
+interface IProduct {
   id?: number
   createdBy?: number
   lastUpdatedBy?: number
@@ -12,3 +12,13 @@ export default interface IProduct {
   createdAt?: string
   updatedAt?: string
 }
+
+interface IProductInput {
+  name: string
+  capitalPrice: number | string
+  sellPrice: number | string
+  stock: number | string
+  unit: string
+}
+
+export type { IProduct, IProductInput }

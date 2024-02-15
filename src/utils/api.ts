@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type IProduct from '../types/product'
+import type { IProduct } from '@/types/product'
 import type ICart from '../types/cart'
 import { type Dayjs } from 'dayjs'
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import type { ReactElement, ChangeEvent } from 'react'
 import { HiOutlineListBullet, HiOutlineTrash, HiOutlinePencil } from 'react-icons/hi2'
 import translateProductProps from '@/utils/translateProductProps'
-import type IProduct from '@/types/product'
+import type { IProduct } from '@/types/product'
 
 interface IPaginationTable {
   searchQuery: string

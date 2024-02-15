@@ -1,4 +1,4 @@
-import type IProduct from '@/types/product'
+import type { IProduct } from '@/types/product'
 import { ActionType } from '../products/action'
 
 const productsReducer = (products: IProduct[] | never[] = [], action: any): IProduct[] | never[] => {
