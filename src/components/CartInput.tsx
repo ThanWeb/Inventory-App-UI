@@ -1,12 +1,13 @@
 /* eslint-disable no-useless-escape */
 
 import { useState, type ReactElement } from 'react'
-import type IProduct from '@/types/product'
+import type { IProduct } from '@/types/product'
 
 interface ICartInput {
   index: number
   name: string
-  total: number
+  total: number | string
+  sellPrice: number
   products: IProduct[] | never[]
   handleFieldChange: (index: number, attr: string, value: string) => void
 }
@@ -74,18 +75,29 @@ const CartInput = ({ props }: IProps): ReactElement => {
         </div>
       </div>
       <div className='flex flex-col gap-y-2'>
-        <label htmlFor='total'>Total</label>
+        <label htmlFor='total'>Jumlah</label>
         <input
           id='total'
           type='number'
           value={props.total}
-          className='border border-slate-200 hover:border-amber-600 w-full p-2'
-          onChange={(event) => { props.handleFieldChange(props.index, 'total', event.target.value.replace(/\D/g, '')) }}
-          placeholder='10'
-          disabled={findMax(props.products, props.name) <= 0}
-          min={0}
+          className={`border border-slate-200 hover:border-amber-600 ${props.name === '' ? 'bg-slate-100' : ''} w-full p-2`}
+          onChange={(event) => { props.handleFieldChange(props.index, 'total', event.target.value) }}
+          placeholder='1'
+          disabled={props.name === ''}
+          min={1}
           max={findMax(props.products, props.name)}
           required/>
+      </div>
+      <div className='flex flex-col gap-y-2'>
+        <label htmlFor='sellPrice'>Harga</label>
+        <input
+          id='sellPrice'
+          type='number'
+          value={props.sellPrice}
+          className='border border-slate-200 bg-slate-100 hover:border-amber-600 w-full p-2'
+          placeholder='10'
+          disabled={true}
+        />
       </div>
       <div className='flex justify-end'>
         <p className='text-center text-sm text-white italic rounded-lg bg-blue-500 w-fit px-4'>Tersedia {findMax(props.products, props.name)}</p>

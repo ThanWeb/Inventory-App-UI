@@ -1,4 +1,5 @@
 export default interface ICart {
   name: string
-  total: number
+  total: number | string
+  sellPrice: number
 }

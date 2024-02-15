@@ -11,7 +11,7 @@ import { setMessageActionCreator, type IStateMessage } from '@/store/message/act
 import { setLoadingTrueActionCreator, setLoadingFalseActionCreator } from '@/store/isLoading/action'
 import { asyncGetProducts } from '@/store/products/action'
 import { type IStateUser } from '@/store/user/action'
-import type IProduct from '@/types/product'
+import type { IProduct } from '@/types/product'
 import type ICart from '@/types/cart'
 import api from '@/utils/api'
 
@@ -26,7 +26,8 @@ export default function Sale (): ReactElement {
   const [cartInput, setCartInput] = useState<ICart[]>([
     {
       name: '',
-      total: 0
+      total: 0,
+      sellPrice: 0
     }
   ])
 
@@ -39,7 +40,8 @@ export default function Sale (): ReactElement {
   const addFields = (): void => {
     setCartInput([...cartInput, {
       name: '',
-      total: 0
+      total: 0,
+      sellPrice: 0
     }])
   }
 
@@ -59,10 +61,21 @@ export default function Sale (): ReactElement {
 
       if (attr === 'name') {
         newCartInput[index][attr] = value
-      } else if (attr === 'total') {
-        if (value === '') return
 
-        newCartInput[index][attr] = parseInt(value)
+        const product = products.find(item => item.name === value)
+        if (product !== undefined) {
+          newCartInput[index].sellPrice = product.sellPrice
+        } else {
+          newCartInput[index].sellPrice = 0
+        }
+      } else if (attr === 'total') {
+        if (value === '') {
+          newCartInput[index][attr] = value
+        } else if (value[0] === '0' && value.length > 1) {
+          newCartInput[index][attr] = value.slice(1)
+        } else {
+          newCartInput[index][attr] = parseInt(value)
+        }
       }
 
       setCartInput(newCartInput)
@@ -140,6 +153,7 @@ export default function Sale (): ReactElement {
                       index,
                       name: input.name,
                       total: input.total,
+                      sellPrice: input.sellPrice,
                       products: products.filter(item => item.name.toLowerCase().match(input.name.toLowerCase()) !== null),
                       handleFieldChange
                     }}
