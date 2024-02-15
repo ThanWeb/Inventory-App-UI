@@ -88,7 +88,7 @@ const Transaction = (): ReactElement => {
                   <th className='px-3 py-2 border'>Waktu Transaksi</th>
                   <th className='px-3 py-2 border'>Status</th>
                   <th className='px-3 py-2 border'>Jumlah</th>
-                  <th className='px-3 py-2 border'>Aksi</th>
+                  <th className='px-3 py-2 border'>Detail</th>
                 </tr>
                 {
                   transactions.map((transaction, index) =>

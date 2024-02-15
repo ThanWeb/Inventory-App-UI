@@ -29,25 +29,33 @@ const TransactionModal = ({ props }: IProps): ReactElement => {
             <p>{props.selectedTransaction.owner.username} sebagai {props.selectedTransaction.owner.role}</p>
             <p>{props.selectedTransaction.isUnpaid ? 'Sudah' : 'Belum'} Lunas</p>
           </div>
-          <div className='border'/>
-          <div className='flex flex-col gap-y-2'>
+          <div className='flex flex-col gap-y-3'>
             <h2 className='font-medium text-lg'>Keranjang</h2>
-            <div className='oveflow-x-auto'>
+            <div className='oveflow-x-auto w-full pb-2'>
               <table className='min-w-full text-center border-collapse whitespace-nowrap'>
                 <tbody>
-                  <tr>
-                    <th className='text-left'>Nama Barang</th>
-                    <th>Qty</th>
-                    <th className='text-left'>Harga</th>
+                  <tr className='text-left'>
+                    <th className='pr-3'>Nama Barang</th>
+                    <th className='text-center pr-3'>Qty</th>
+                    <th className='pr-3'>Harga</th>
+                    <th className='pr-3'>Total</th>
                   </tr>
                   {
                     props.selectedTransaction.carts?.map((item, index) =>
-                      <tr key={index}>
-                        <td className='text-left'>{item.product.name}</td>
-                        <td>{item.total}</td>
-                        <td className='flex justify-between'>
-                          <span>Rp. </span>
-                          <span>{formatPrice(`${item.product.sellPrice}`)}</span>
+                      <tr key={index} className='text-left'>
+                        <td className='pr-3'>{item.product.name}</td>
+                        <td className='text-center pr-3'>{item.total}</td>
+                        <td className='pr-3'>
+                          <p className='flex justify-between'>
+                            <span>Rp. </span>
+                            <span>{formatPrice(`${item.product.sellPrice}`)}</span>
+                          </p>
+                        </td>
+                        <td className='pr-3'>
+                          <p className='flex justify-between'>
+                            <span>Rp. </span>
+                            <span>{formatPrice(`${item.product.sellPrice * item.total}`)}</span>
+                          </p>
                         </td>
                       </tr>
                     )
@@ -56,15 +64,16 @@ const TransactionModal = ({ props }: IProps): ReactElement => {
               </table>
             </div>
           </div>
-          <div className='border'/>
-          <div className='mt-auto font-bold'>
+          <div className='mt-auto font-bold w-full'>
             <table className='min-w-full text-center border-collapse'>
               <tbody>
                 <tr>
                   <th className='text-left'>Total Belanja</th>
-                  <th className='flex justify-between'>
-                    <span>Rp. </span>
-                    <span>{formatPrice(`${props.selectedTransaction.total}`)}</span>
+                  <th>
+                    <p className='text-right'>
+                      <span>Rp. </span>
+                      <span>{formatPrice(`${props.selectedTransaction.total}`)}</span>
+                    </p>
                   </th>
                 </tr>
               </tbody>
