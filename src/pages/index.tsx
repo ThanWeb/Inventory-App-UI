@@ -12,7 +12,7 @@ import { type IStateUser } from '@/store/user/action'
 import { asyncGetProducts, asyncAddProduct, asyncEditProduct, asyncDeleteProduct } from '@/store/products/action'
 import { setLoadingTrueActionCreator, setLoadingFalseActionCreator } from '@/store/isLoading/action'
 import { type IStateMessage, setMessageActionCreator } from '@/store/message/action'
-import type IProduct from '@/types/product'
+import type { IProduct } from '@/types/product'
 
 export default function Home (): ReactElement {
   const dispatch = useDispatch()
@@ -29,9 +29,9 @@ export default function Home (): ReactElement {
 
   const [id, setId] = useState(0)
   const [name, setName] = useState('')
-  const [capitalPrice, setCapitalPrice] = useState(0)
-  const [sellPrice, setSellPrice] = useState(0)
-  const [stock, setStock] = useState(0)
+  const [capitalPrice, setCapitalPrice] = useState<number | string>(0)
+  const [sellPrice, setSellPrice] = useState<number | string>(0)
+  const [stock, setStock] = useState<number | string>(0)
   const [unit, setUnit] = useState('')
 
   const [image, setImage] = useState<Blob | MediaSource | null>(null)
@@ -119,6 +119,32 @@ export default function Home (): ReactElement {
     }
 
     dispatch(setLoadingFalseActionCreator())
+  }
+
+  const updateNumberInputHandler = (propName: string, value: string): void => {
+    switch (propName) {
+    case 'capitalPrice':
+      setCapitalPrice(checkNumberInputValue(value))
+      break
+    case 'sellPrice':
+      setSellPrice(checkNumberInputValue(value))
+      break
+    case 'stock':
+      setStock(checkNumberInputValue(value))
+      break
+    default:
+      break
+    }
+  }
+
+  const checkNumberInputValue = (value: string): string | number => {
+    if (value === '') {
+      return value
+    } else if (value[0] === '0' && value.length > 1) {
+      return value.slice(1)
+    } else {
+      return parseInt(value)
+    }
   }
 
   const checkIsThereAnyChange = (): boolean => {
@@ -216,7 +242,7 @@ export default function Home (): ReactElement {
               placeholder='Cari item'
               value={searchQuery}
               onChange={(event) => { setSearchQuery(event.target.value) }}
-              className='border border-sky-700 hover:border-amber-600 w-full py-3 px-2'
+              className='border border-sky-700 hover:border-amber-600 w-full my-1 py-3 px-2'
               autoComplete='off'
             />
           </div>
@@ -237,11 +263,11 @@ export default function Home (): ReactElement {
               name,
               setName,
               capitalPrice,
-              setCapitalPrice,
+              setCapitalPrice: updateNumberInputHandler,
               sellPrice,
-              setSellPrice,
+              setSellPrice: updateNumberInputHandler,
               stock,
-              setStock,
+              setStock: updateNumberInputHandler,
               unit,
               setUnit,
               imageUrl,

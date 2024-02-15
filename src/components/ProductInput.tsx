@@ -7,12 +7,12 @@ interface IProductInput {
   isDynamic: boolean
   name: string
   setName: (param: string) => void
-  capitalPrice: number
-  setCapitalPrice: (param: number) => void
-  sellPrice: number
-  setSellPrice: (param: number) => void
-  stock: number
-  setStock: (param: number) => void
+  capitalPrice: number | string
+  setCapitalPrice: (propName: string, value: string) => void
+  sellPrice: number | string
+  setSellPrice: (propName: string, value: string) => void
+  stock: number | string
+  setStock: (propName: string, value: string) => void
   unit: string
   setUnit: (param: string) => void
   selectedAction: string
@@ -50,8 +50,8 @@ const ProductInput = ({ props }: IProps): ReactElement => {
           value={props.capitalPrice}
           className='border border-slate-200 hover:border-amber-600 w-full p-2'
           onChange={props.isDynamic
-            ? (event) => { props.handleFieldChange(props.index, 'capitalPrice', event.target.value.replace(/\D/g, '')) }
-            : (event) => { props.setCapitalPrice(parseInt(event.target.value.replace(/\D/g, ''))) }}
+            ? (event) => { props.handleFieldChange(props.index, 'capitalPrice', event.target.value) }
+            : (event) => { props.setCapitalPrice('capitalPrice', event.target.value) }}
           placeholder='10000'
           disabled={props.selectedAction === 'detail' || props.selectedAction === 'delete'}
           min={0}
@@ -66,8 +66,8 @@ const ProductInput = ({ props }: IProps): ReactElement => {
           value={props.sellPrice}
           className='border border-slate-200 hover:border-amber-600 w-full p-2'
           onChange={props.isDynamic
-            ? (event) => { props.handleFieldChange(props.index, 'sellPrice', event.target.value.replace(/\D/g, '')) }
-            : (event) => { props.setSellPrice(parseInt(event.target.value.replace(/\D/g, ''))) }}
+            ? (event) => { props.handleFieldChange(props.index, 'sellPrice', event.target.value) }
+            : (event) => { props.setSellPrice('sellPrice', event.target.value) }}
           placeholder='20000'
           disabled={props.selectedAction === 'detail' || props.selectedAction === 'delete'}
           min={0}
@@ -82,8 +82,8 @@ const ProductInput = ({ props }: IProps): ReactElement => {
           value={props.stock}
           className='border border-slate-200 hover:border-amber-600 w-full p-2'
           onChange={props.isDynamic
-            ? (event) => { props.handleFieldChange(props.index, 'stock', event.target.value.replace(/\D/g, '')) }
-            : (event) => { props.setStock(parseInt(event.target.value.replace(/\D/g, ''))) }}
+            ? (event) => { props.handleFieldChange(props.index, 'stock', event.target.value) }
+            : (event) => { props.setStock('stock', event.target.value) }}
           placeholder='10'
           disabled={props.selectedAction === 'detail' || props.selectedAction === 'delete'}
           min={0}

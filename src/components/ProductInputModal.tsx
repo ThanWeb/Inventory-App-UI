@@ -6,12 +6,12 @@ import Image from 'next/image'
 interface IProductInputModal {
   name: string
   setName: (param: string) => void
-  capitalPrice: number
-  setCapitalPrice: (param: number) => void
-  sellPrice: number
-  setSellPrice: (param: number) => void
-  stock: number
-  setStock: (param: number) => void
+  capitalPrice: number | string
+  setCapitalPrice: (propName: string, value: string) => void
+  sellPrice: number | string
+  setSellPrice: (propName: string, value: string) => void
+  stock: number | string
+  setStock: (propName: string, value: string) => void
   unit: string
   setUnit: (param: string) => void
   imageUrl: string

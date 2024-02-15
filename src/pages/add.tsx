@@ -10,14 +10,14 @@ import { setLoadingTrueActionCreator, setLoadingFalseActionCreator } from '@/sto
 import { asyncAddMultipleProduct } from '@/store/products/action'
 import { type IStateMessage, setMessageActionCreator } from '@/store/message/action'
 import { type RootState } from '@/store'
-import type IProduct from '@/types/product'
+import type { IProductInput } from '@/types/product'
 
 export default function Add (): ReactElement {
   const router = useRouter()
   const dispatch = useDispatch()
 
   const message: IStateMessage | null = useSelector((state: RootState) => state.message)
-  const [productInputs, setProductInputs] = useState<IProduct[]>([
+  const [productInputs, setProductInputs] = useState<IProductInput[]>([
     {
       name: '',
       capitalPrice: 0,
@@ -54,9 +54,13 @@ export default function Add (): ReactElement {
       if (attr === 'name' || attr === 'unit') {
         newProductInputs[index][attr] = value
       } else if (attr === 'capitalPrice' || attr === 'sellPrice' || attr === 'stock') {
-        if (value === '') return
-
-        newProductInputs[index][attr] = parseInt(value)
+        if (value === '') {
+          newProductInputs[index][attr] = value
+        } else if (value[0] === '0' && value.length > 1) {
+          newProductInputs[index][attr] = value.slice(1)
+        } else {
+          newProductInputs[index][attr] = parseInt(value)
+        }
       }
 
       setProductInputs(newProductInputs)
