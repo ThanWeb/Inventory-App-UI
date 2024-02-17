@@ -1,5 +1,5 @@
 const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
-const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Jum\'at', 'Sabtu']
+const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jum\'at', 'Sabtu']
 
 const formatDate = (rawDate: string): string => {
   const date = new Date(rawDate)
