@@ -100,10 +100,12 @@ export default function Home (): ReactElement {
       case 'add':
         response = await dispatch(asyncAddProduct({ product: { name, capitalPrice, sellPrice, stock, unit }, image }))
         dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
+        setImage(null)
         break
       case 'edit':
-        response = await dispatch(asyncEditProduct({ id, product: { name, capitalPrice, sellPrice, stock, unit } }))
+        response = await dispatch(asyncEditProduct({ id, product: { name, capitalPrice, sellPrice, stock, unit }, image }))
         dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
+        setImage(null)
         break
       case 'delete':
         response = await dispatch(asyncDeleteProduct({ id }))
@@ -156,7 +158,8 @@ export default function Home (): ReactElement {
         product[0].capitalPrice !== capitalPrice ||
         product[0].sellPrice !== sellPrice ||
         product[0].stock !== stock ||
-        product[0].unit !== unit
+        product[0].unit !== unit ||
+        image !== null
       ) {
         return true
       } else {
