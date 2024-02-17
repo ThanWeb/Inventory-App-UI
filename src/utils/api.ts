@@ -144,9 +144,34 @@ const api = (() => {
     }
   }
 
-  const updateProduct = async ({ id, product: { name, capitalPrice, sellPrice, stock, unit } }: { id: number, product: IProductInput }): Promise<any> => {
+  const updateProduct = async ({ id, product: { name, capitalPrice, sellPrice, stock, unit }, image }: { id: number, product: IProductInput, image: any }): Promise<any> => {
     try {
-      const response = await axios.put(`${BASE_URL}product`, { id, name, capitalPrice, sellPrice, stock, unit }, {
+      let imageUrl = ''
+
+      if (image !== null) {
+        const formData = new FormData()
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        formData.append('image', image)
+
+        const responseImage: Record<string, any> = await axios.post(`${BASE_URL}product/image`, formData, {
+          headers: {
+            Authorization: `Bearer ${getAccessToken()}`,
+            'Content-Type': 'multipart/form-data'
+          },
+          withCredentials: true
+        })
+
+        if (responseImage.data.error === true) {
+          return {
+            error: true,
+            message: 'Terjadi Kesalahan, Silahkan Upload Ulang'
+          }
+        }
+
+        imageUrl = responseImage.data.image
+      }
+
+      const response = await axios.put(`${BASE_URL}product`, { id, name, capitalPrice, sellPrice, stock, unit, imageUrl }, {
         headers: {
           Authorization: `Bearer ${getAccessToken()}`
         }
