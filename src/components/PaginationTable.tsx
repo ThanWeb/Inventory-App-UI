@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import type { ReactElement, ChangeEvent } from 'react'
 import { HiOutlineListBullet, HiOutlineTrash, HiOutlinePencil } from 'react-icons/hi2'
 import translateProductProps from '@/utils/translateProductProps'
+import formatPrice from '@/utils/formatPrice'
 import type { IProduct } from '@/types/product'
 
 interface IPaginationTable {
@@ -173,6 +174,18 @@ const PaginationTable = ({ rawItems, props }: IProps): ReactElement => {
                                 prop === 'stock' ||
                                 prop === 'unit'
                               ) {
+                                if (prop === 'capitalPrice' || prop === 'sellPrice') {
+                                  return <td
+                                    key={index}
+                                    className='px-3 py-2 border capitalize'
+                                  >
+                                    <p className='flex justify-between gap-x-2'>
+                                      <span>Rp.</span>
+                                      <span>{formatPrice(`${item[prop]}`)}</span>
+                                    </p>
+                                  </td>
+                                }
+
                                 return <td
                                   key={index}
                                   className='px-3 py-2 border capitalize'
