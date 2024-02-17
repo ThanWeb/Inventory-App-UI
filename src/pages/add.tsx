@@ -107,71 +107,73 @@ export default function Add (): ReactElement {
           content='Add Product Inventory App'
         />
       </Head>
-      <div className='py-4 px-6 md:py-6 md:px-12 container mx-auto'>
-        <form
-          onSubmit={(event: React.FormEvent<HTMLFormElement>) => { void onSubmitHandler(event) }}
-          className='flex flex-col gap-y-8'
-        >
-          <div className='flex flex-col justify-start md:flex-row md:justify-between md:items-center gap-4'>
-            <h1 className='text-xl font-semibold text-left drop-shadow'>Tambah Produk</h1>
-            <div className='grid grid-cols-2 gap-2 md:flex md:justify-end md:gap-4 md:flex-wrap whitespace-nowrap'>
-              <button
-                type='button'
-                onClick={addFields}
-                className={`flex gap-x-2 items-center ${productInputs.length >= 10 ? 'bg-slate-500' : 'bg-green-600'} text-white px-3 py-2 w-full md:w-fit`}
-                disabled={productInputs.length >= 10}
-              >
-                <HiMiniPlusCircle className='w-6 h-6 text-white' />
-                <span>Tambah Kolom</span>
-              </button>
-              <button
-                type='button'
-                onClick={removeLastField}
-                className={`flex gap-x-2 items-center ${productInputs.length <= 1 ? 'bg-slate-500' : 'bg-amber-600'} text-white px-3 py-2 w-full md:w-fit`}
-                disabled={productInputs.length <= 1}
-              >
-                <HiMiniMinusCircle className='w-6 h-6 text-white' />
-                <span>Kurangi Kolom</span>
-              </button>
-              <button
-                type='submit'
-                className='flex gap-x-2 items-center bg-sky-600 text-white px-3 py-2 w-full md:w-fit'
-              >
-                <HiCheckCircle className='w-6 h-6 text-white' />
-                <span>Simpan</span>
-              </button>
-            </div>
-          </div>
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-            {
-              productInputs.map((input, index) =>
-                <div
-                  key={index}
-                  className='flex flex-col gap-y-3 shadow-lg p-6'
+      <div className='flex flex-col py-4 px-6 md:py-6 md:px-12 lg:w-9/12 xl:w-10/12 ml-auto'>
+        <div className='container mx-auto flex flex-col items-center gap-y-3'>
+          <form
+            onSubmit={(event: React.FormEvent<HTMLFormElement>) => { void onSubmitHandler(event) }}
+            className='flex flex-col gap-y-8 w-full'
+          >
+            <div className='flex flex-col justify-start md:flex-row md:justify-between md:items-center gap-4'>
+              <h1 className='text-xl font-semibold text-left drop-shadow'>Tambah Produk</h1>
+              <div className='grid grid-cols-2 gap-2 md:flex md:justify-end md:gap-4 md:flex-wrap whitespace-nowrap'>
+                <button
+                  type='button'
+                  onClick={addFields}
+                  className={`flex gap-x-2 items-center ${productInputs.length >= 10 ? 'bg-slate-500' : 'bg-green-600'} text-white px-3 py-2 w-full md:w-fit`}
+                  disabled={productInputs.length >= 10}
                 >
-                  <ProductInput
-                    props={{
-                      index,
-                      isDynamic: true,
-                      name: input.name,
-                      setName: () => {},
-                      capitalPrice: input.capitalPrice,
-                      setCapitalPrice: () => {},
-                      sellPrice: input.sellPrice,
-                      setSellPrice: () => {},
-                      stock: input.stock,
-                      setStock: () => {},
-                      unit: input.unit,
-                      setUnit: () => {},
-                      selectedAction: 'add',
-                      handleFieldChange
-                    }}
-                  />
-                </div>
-              )
-            }
-          </div>
-        </form>
+                  <HiMiniPlusCircle className='w-6 h-6 text-white' />
+                  <span>Tambah Kolom</span>
+                </button>
+                <button
+                  type='button'
+                  onClick={removeLastField}
+                  className={`flex gap-x-2 items-center ${productInputs.length <= 1 ? 'bg-slate-500' : 'bg-amber-600'} text-white px-3 py-2 w-full md:w-fit`}
+                  disabled={productInputs.length <= 1}
+                >
+                  <HiMiniMinusCircle className='w-6 h-6 text-white' />
+                  <span>Kurangi Kolom</span>
+                </button>
+                <button
+                  type='submit'
+                  className='flex gap-x-2 items-center bg-sky-600 text-white px-3 py-2 w-full md:w-fit'
+                >
+                  <HiCheckCircle className='w-6 h-6 text-white' />
+                  <span>Simpan</span>
+                </button>
+              </div>
+            </div>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+              {
+                productInputs.map((input, index) =>
+                  <div
+                    key={index}
+                    className='flex flex-col gap-y-3 shadow-lg p-6'
+                  >
+                    <ProductInput
+                      props={{
+                        index,
+                        isDynamic: true,
+                        name: input.name,
+                        setName: () => {},
+                        capitalPrice: input.capitalPrice,
+                        setCapitalPrice: () => {},
+                        sellPrice: input.sellPrice,
+                        setSellPrice: () => {},
+                        stock: input.stock,
+                        setStock: () => {},
+                        unit: input.unit,
+                        setUnit: () => {},
+                        selectedAction: 'add',
+                        handleFieldChange
+                      }}
+                    />
+                  </div>
+                )
+              }
+            </div>
+          </form>
+        </div>
       </div>
       <Message message={message} />
     </>

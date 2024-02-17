@@ -219,7 +219,7 @@ export default function Home (): ReactElement {
           content='Inventory App'
         />
       </Head>
-      <div className='flex flex-col py-4 px-6 md:py-6 md:px-12'>
+      <div className='flex flex-col py-4 px-6 md:py-6 md:px-12 lg:w-9/12 xl:w-10/12 ml-auto'>
         <div className='container mx-auto flex flex-col items-center gap-y-3'>
           <div className='w-full flex items-start justify-start gap-3 flex-wrap whitespace-nowrap'>
             <button
