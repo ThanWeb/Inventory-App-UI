@@ -39,10 +39,12 @@ input::-ms-reveal, input::-ms-clear {
   }
 }
 
-#navbar {
-  left: 0;
-}
-
-#navbar.hide {
-  left: -100%;
+@media screen and (max-width: 1023px) {
+  #navbar {
+    left: 0;
+  }
+  
+  #navbar.hide {
+    left: -100%;
+  }
 }

@@ -125,7 +125,7 @@ const DefaultLayout = ({ children }: IDefaultLayoutProps): ReactElement => {
           setIsDropdownShowed
         }}
       />
-      <main className={inter.className}>
+      <main className={`${inter.className} lg:w-9/12 xl:w-10/12 ml-auto`}>
         {children}
       </main>
       <div className={inter.className}>

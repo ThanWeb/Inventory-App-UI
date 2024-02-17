@@ -44,8 +44,8 @@ const Header = ({ props }: IProps): ReactElement => {
   }
 
   return (
-    <header className={`${inter.className} w-full sticky top-0 left-0 flex shadow-md z-20 bg-white`}>
-      <div className='container flex justify-between items-center px-6 md:px-8 mx-auto'>
+    <header className={`${inter.className} w-full sticky top-0 left-0 flex z-20 bg-white`}>
+      <div className='container flex justify-between items-center px-6 md:px-8 mx-auto lg:mr-0 shadow-md'>
         <nav>
           <button
             type='button'
@@ -55,14 +55,14 @@ const Header = ({ props }: IProps): ReactElement => {
             <HiBars3 className='w-8 h-8 m-auto' />
           </button>
           <div
-            className={`${props.isNavShowed ? '' : 'hidden'} fixed z-[25] bg-slate-300 opacity-30 w-screen h-screen top-0 left-0`}
+            className={`${props.isNavShowed ? '' : 'hidden'} fixed z-[25] bg-slate-300 opacity-30 w-screen h-screen top-0 left-0 lg:hidden`}
             onClick={() => { props.setIsNavShowed(false) }}
           />
           <div
             id='navbar'
-            className={`${props.isNavShowed ? '' : 'hide'} z-30 fixed top-0 w-1/2 md:w-4/12 lg:w-3/12 h-screen bg-white transition-all duration-200 py-6 px-4`}>
+            className={`${props.isNavShowed ? '' : 'hide'} z-30 fixed top-0 w-1/2 md:w-4/12 lg:left-0 lg:w-3/12 xl:w-2/12 h-screen bg-white transition-all duration-200 py-6 px-4 lg:border-r`}>
             <ul className='flex flex-col gap-y-3'>
-              <li className='border-b border-b-sky-500 pb-3 text-center'>
+              <li className='border-b border-b-sky-500 pb-3 lg:pb-2 text-center'>
                 <Link
                   href='/'
                   onClick={() => { props.setIsNavShowed(false) }}
