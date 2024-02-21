@@ -27,7 +27,7 @@ const createProductActionCreator = (product: IProductInput): { type: string, pay
   }
 }
 
-const updateProductActionCreator = (id: number, product: IProductInput): { type: string, payload: Record<string, any> } => {
+const updateProductActionCreator = (id: number, product: IProduct): { type: string, payload: Record<string, any> } => {
   return {
     type: ActionType.UPDATE_PRODUCT,
     payload: {
@@ -84,13 +84,13 @@ const asyncAddMultipleProduct = ({ products }: { products: IProductInput[] }): a
   }
 }
 
-const asyncEditProduct = ({ id, product: { name, capitalPrice, sellPrice, stock, unit } }: { id: number, product: IProductInput }): any => {
+const asyncEditProduct = ({ id, product: { name, capitalPrice, sellPrice, stock, unit }, image }: { id: number, product: IProductInput, image: any }): any => {
   return async (dispatch: Dispatch) => {
     try {
-      const response = await api.updateProduct({ id, product: { name, capitalPrice, sellPrice, stock, unit } })
+      const response: { error: boolean, message: string, product: undefined | IProduct } = await api.updateProduct({ id, product: { name, capitalPrice, sellPrice, stock, unit }, image })
 
-      if (!response.error) {
-        dispatch(updateProductActionCreator(id, { name, capitalPrice, sellPrice, stock, unit }))
+      if (!response.error && response.product !== undefined) {
+        dispatch(updateProductActionCreator(id, response.product))
       }
 
       return response
