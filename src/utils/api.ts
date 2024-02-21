@@ -21,7 +21,7 @@ const showError = (error: any): any => {
 axios.defaults.withCredentials = true
 
 const api = (() => {
-  const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:8000/' : 'https://inventory-app-rest-api.up.railway.app/'
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 
   const putAccessToken = (token: string): void => {
     localStorage.setItem('accessToken', token)
