@@ -61,12 +61,12 @@ const AuthForm = ({ props }: IProps): ReactElement => {
           <button
             type='button'
             title='toggle-password'
-            className='absolute right-0'
+            className='absolute right-3'
             onClick={props.togglePasswordVisibility}>
             {
               props.showPassword
-                ? <HiEyeOff className='w-6 h-6 mr-3'/>
-                : <HiEye className='w-6 h-6 mr-3'/>
+                ? <HiEyeOff className='w-6 h-6'/>
+                : <HiEye className='w-6 h-6'/>
             }
           </button>
         </div>
