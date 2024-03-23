@@ -33,23 +33,27 @@ export default function Home (): ReactElement {
   const [sellPrice, setSellPrice] = useState<number | string>(0)
   const [stock, setStock] = useState<number | string>(0)
   const [unit, setUnit] = useState('')
-
-  const [image, setImage] = useState<Blob | MediaSource | null>(null)
   const [imageUrl, setImageUrl] = useState('')
+
+  const [imageInput, setImageInput] = useState<Blob | MediaSource | null>(null)
+  const [imageInputUrl, setImageInputUrl] = useState('')
 
   useEffect(() => {
     fetchDataFromLocalStorage()
   }, [])
 
   useEffect(() => {
-    if (image === null) {
+    if (!isProductModalShowed) {
       const productImageInput: HTMLInputElement | null = document?.querySelector('input#productImageInput')
 
       if (productImageInput !== null) {
         productImageInput.value = ''
       }
+
+      setImageInputUrl('')
+      setImageInput(null)
     }
-  }, [image])
+  }, [isProductModalShowed])
 
   useEffect(() => {
     if (user !== null) {
@@ -75,7 +79,7 @@ export default function Home (): ReactElement {
       setSellPrice(0)
       setStock(0)
       setUnit('')
-      setImage(null)
+      setImageInput(null)
     } else {
       if (product !== null) {
         setId(selectedId)
@@ -98,14 +102,12 @@ export default function Home (): ReactElement {
     try {
       switch (action) {
       case 'add':
-        response = await dispatch(asyncAddProduct({ product: { name, capitalPrice, sellPrice, stock, unit }, image }))
+        response = await dispatch(asyncAddProduct({ product: { name, capitalPrice, sellPrice, stock, unit }, image: imageInput }))
         dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
-        setImage(null)
         break
       case 'edit':
-        response = await dispatch(asyncEditProduct({ id, product: { name, capitalPrice, sellPrice, stock, unit }, image }))
+        response = await dispatch(asyncEditProduct({ id, product: { name, capitalPrice, sellPrice, stock, unit }, image: imageInput }))
         dispatch(setMessageActionCreator({ error: response.error, text: response.message }))
-        setImage(null)
         break
       case 'delete':
         response = await dispatch(asyncDeleteProduct({ id }))
@@ -159,7 +161,7 @@ export default function Home (): ReactElement {
         product[0].sellPrice !== sellPrice ||
         product[0].stock !== stock ||
         product[0].unit !== unit ||
-        image !== null
+        imageInput !== null
       ) {
         return true
       } else {
@@ -203,8 +205,8 @@ export default function Home (): ReactElement {
           if (event.target.files[0].size > 3e6) {
             dispatch(setMessageActionCreator({ error: true, text: 'Upload Gambar Maksimal 3 mb' }))
           } else {
-            setImageUrl(URL.createObjectURL(event.target.files[0]))
-            setImage(event.target.files[0])
+            setImageInputUrl(URL.createObjectURL(event.target.files[0]))
+            setImageInput(event.target.files[0])
           }
         } else {
           dispatch(setMessageActionCreator({ error: true, text: 'Ekstensi Gambar tidak didukung' }))
@@ -274,7 +276,8 @@ export default function Home (): ReactElement {
               unit,
               setUnit,
               imageUrl,
-              setImageUrl,
+              imageInputUrl,
+              setImageInputUrl,
               onImageChange,
               selectedAction,
               isThereAnyChange: checkIsThereAnyChange(),
