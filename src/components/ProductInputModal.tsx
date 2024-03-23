@@ -124,7 +124,7 @@ const ProductInputModal = ({ props }: IProps): ReactElement => {
             {
               props.selectedAction !== 'add'
                 ? props.imageUrl === ''
-                  ? <span>No Previous Image</span>
+                  ? <span>No Image</span>
                   : <div className='w-full flex flex-col gap-y-2 justify-center items-center'>
                     <span className='bg-white'>Previous Image</span>
                     <div className='bg-gray-100 w-full flex justify-center'>
@@ -134,6 +134,7 @@ const ProductInputModal = ({ props }: IProps): ReactElement => {
                         alt='Previous Image'
                         width={256}
                         height={256}
+                        loading={'lazy'}
                       />
                     </div>
                   </div>
@@ -158,6 +159,7 @@ const ProductInputModal = ({ props }: IProps): ReactElement => {
                     alt='Input Preview Image'
                     width={256}
                     height={256}
+                    loading={'lazy'}
                   />
                 </div>
             }
