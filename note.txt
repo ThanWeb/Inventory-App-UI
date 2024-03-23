@@ -1,0 +1,21 @@
+// Berlaku untuk kedua project, kerjakan menggunakan branch, jangan pakai branch master
+
+Done
+- Register, Login & Logout
+- Tambah Single Produk + Gambar
+- Tambah Multiple Produk *Tanpa Gambar
+- Edit dan Hapus Produk
+- Tambah Penjualan oleh Admin (Manual)
+- Riwayat Penjualan
+  - Berdasarkan Tanggal
+
+Fitur OTW
+- Update Gambar Produk
+- Hasil Penjualan Per Minggu, Per Bulan atau Rentang Tanggal
+- Interface User untuk belanja
+- Report by PDF
+- Menyesuaikan Currency, nanti data currency jadinya state
+- Refactoring using class (REST API)
+
+Opsional
+- Reset Password
